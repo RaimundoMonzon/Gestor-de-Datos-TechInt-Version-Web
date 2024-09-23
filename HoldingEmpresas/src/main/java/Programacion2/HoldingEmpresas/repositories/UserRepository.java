@@ -8,10 +8,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository <UserEntity, Long>{
-    Optional<UserEntity> find_by_username(String username);
+    Optional<UserEntity> findByUsername(String username);
 
-    List<UserEntity> find_by_id_or_username(Long id, String username);
+    List<UserEntity> findByIdOrUsernameContainingIgnoreCase(Long id, String username);
 
-    List<UserEntity> find_by_username_containing(String username);
+    List<UserEntity> findByUsernameContainingIgnoreCase(String username);
 
 }
