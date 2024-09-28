@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
@@ -32,12 +30,14 @@ public class SecurityConfig {
                 authorizeRequests
 
                     // Permitir acceso a recursos estáticos
-                    .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
+                    .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                     // Permitir acceso a páginas de login, registro y logout
                     .requestMatchers("/login", "/register", "/logout").permitAll()
 
                     // Todas las demás rutas requieren autenticación
                     .requestMatchers("/home").hasRole("ADMIN")
+                    .requestMatchers("/busqueda").hasRole("ADMIN")
+
 
 
                     .anyRequest().authenticated()

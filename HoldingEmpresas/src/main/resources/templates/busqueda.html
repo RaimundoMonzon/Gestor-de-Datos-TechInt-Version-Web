@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
-    <title>Inicio | TechInt Multinacional</title>
+    <title>Buscar | TechInt Multinacional</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
 </head>
 <body>
 <div th:insert="~{fragments/navbar :: navbar('home')}"></div>
 <section>
-    <h1>Bienvenido, <span th:text="${#authentication.principal.username}">Usuario</span></h1>
+    <h2>Registered Users</h2>
+    <ul>
+        <li>John Doe</li>
+        <li>Jane Smith</li>
+        <li>Mike Johnson</li>
+    </ul>
 </section>
 
 </body>
