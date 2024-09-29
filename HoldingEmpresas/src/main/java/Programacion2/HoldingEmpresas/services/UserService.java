@@ -31,6 +31,26 @@ public class UserService {
         return repositorio.findByUsername(username);
     }
 
+    public List<UserEntity> filterUsers(String username, String rol, Long id) {
+        if(id != null) {
+            return repositorio.findByIdOrUsernameContainingIgnoreCase(id, null);
+        }
+
+        if(username != null && !username.isEmpty() && rol != null && !rol.isEmpty()) {
+            return repositorio.findByUsernameContainingIgnoreCaseAndRol(username, Rol.valueOf(rol));
+        }
+
+        if(rol != null&& !rol.isEmpty()) {
+            return repositorio.findByRol(Rol.valueOf(rol));
+        }
+
+        if(username != null && !username.isEmpty()) {
+            return repositorio.findByUsernameContainingIgnoreCase(username);
+        }
+
+        return repositorio.findAll();
+    }
+
     public long count() {
         return repositorio.count();
     }

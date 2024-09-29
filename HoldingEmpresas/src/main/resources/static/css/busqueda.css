@@ -1,46 +1,103 @@
-/* Registered Users section */
-section {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: white;
-    margin-top: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    color: #333;
-    font-size: 2em;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
+/* General styling for the form */
+form {
+    display: flex;
+    flex-wrap: wrap; /* Allow elements to wrap if necessary */
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    margin-bottom: 20px;
     background-color: #f9f9f9;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for form elements */
+form label {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+form input[type="text"],
+form input[type="number"],
+form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+    margin-right: 10px; /* Add space between elements */
+}
+
+form input[type="text"]::placeholder,
+form input[type="number"]::placeholder {
+    font-style: italic;
+    color: #888;
+}
+
+/* Style the submit button */
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
     border-radius: 5px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-left: 10px; /* Add space between button and input fields */
 }
 
-ul li:hover {
-    background-color: #f1f1f1;
+form button:hover {
+    background-color: #45a049;
 }
 
-/* Responsive design for mobile */
+/* Make sure the form fields are flexible and responsive */
+form input[type="text"],
+form input[type="number"],
+form select {
+    flex: 1;
+}
+
 @media (max-width: 768px) {
-    section {
-        padding: 15px;
+    form {
+        flex-direction: column;
+        align-items: flex-start;
     }
-    
-    ul li {
-        padding: 15px;
+
+    form label,
+    form input,
+    form select,
+    form button {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
     }
+
+    form button {
+        width: auto;
+        align-self: flex-start; /* Align button with the start of the form on mobile */
+    }
+}
+
+/* Estilo de la tabla de usuarios registrados */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #f2f2f2;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
 }
