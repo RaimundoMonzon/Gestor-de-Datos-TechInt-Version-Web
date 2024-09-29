@@ -1,6 +1,7 @@
 package Programacion2.HoldingEmpresas.entities;
 
 import java.util.Collection;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity @Table(name = "users")
+@Entity 
+@Table(name = "users")
 public class UserEntity implements UserDetails{
 
     @Id
@@ -32,6 +34,20 @@ public class UserEntity implements UserDetails{
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rol rol;
+
+    @Column()
+    private Long ingresosTotales;
+
+    @Column()
+    private Date fechaIngreso;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "manager_id")
+    private List<UserEntity> subContratados;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
