@@ -10,17 +10,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity 
+@Entity
 @Table(name = "users")
-public class UserEntity implements UserDetails{
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class UserEntity implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,26 +29,19 @@ public class UserEntity implements UserDetails{
 
     @Column(unique = true, nullable = false)
     private String username;
+
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Rol rol;
-
     @Column()
-    private Long ingresosTotales;
+    private String direccion;
 
     @Column()
     private Date fechaIngreso;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "manager_id")
-    private List<UserEntity> subContratados;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresa_id")
-    private Empresa empresa;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Rol rol;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

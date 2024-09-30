@@ -59,9 +59,12 @@ public class Empresa {
     ) private List<Area> areasOperadas;
 
     @OneToMany(
-        targetEntity = UserEntity.class, 
+        targetEntity = Vendedor.class, 
         fetch = FetchType.LAZY, 
         mappedBy = "empresa", 
         cascade = CascadeType.ALL
-    ) private List<UserEntity> contratados;
+    ) private List<Vendedor> vendedoresContratados;
+
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Contrato> contratosAsesores;
 }

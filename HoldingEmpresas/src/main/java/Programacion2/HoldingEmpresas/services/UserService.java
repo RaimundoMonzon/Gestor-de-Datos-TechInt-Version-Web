@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import Programacion2.HoldingEmpresas.repositories.UserRepository;
+import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
 import lombok.AllArgsConstructor;
@@ -59,7 +60,7 @@ public class UserService {
     }
 
     public void registerFirtsUser(String username, String password) {
-        UserEntity usuario = new UserEntity();
+        UserEntity usuario = new Administrador();
         usuario.setUsername(username);
         usuario.setPassword(passwordEncoder.encode(password));
         usuario.setRol(Rol.ADMIN);
