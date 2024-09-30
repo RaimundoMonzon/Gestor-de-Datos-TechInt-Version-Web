@@ -37,8 +37,7 @@ public class SecurityConfig {
                     // Todas las demás rutas requieren autenticación
                     .requestMatchers("/home").hasRole("ADMIN")
                     .requestMatchers("/busqueda").hasRole("ADMIN")
-
-
+                    .requestMatchers("/create").hasRole("ADMIN")
 
                     .anyRequest().authenticated()
             )
