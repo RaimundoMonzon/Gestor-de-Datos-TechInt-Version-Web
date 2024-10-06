@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <title>Crear | TechInt Multinacional</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
+    <script type="text/javascript" th:src="@{/js/create.js}"></script>
+
+</head>
+
+<body>
+    <div th:insert="~{fragments/navbar :: navbar(create)}"></div>
+    <h2>Crear Nueva Area</h2>
+    <section class="page-card">
+        <h3>Informacion del Area</h3>
+        <form th:action="@{/create}" method="post">
+            <div class="form-group">
+                <label for="areanombre">Nombre del Area</label>
+                <input type="text" id="areanombre" nombre="areanombre" placeholder="Ingrese el nombre del Area"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="areadescripcion">Descripcion</label>
+                <input type="text" id="areadescripcion" nombre="areadescripcion" placeholder="Ingrese una breve descripcion"
+                    required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Crear Area</button>
+            </div>
+        </form>
+
+    </section>
+</body>

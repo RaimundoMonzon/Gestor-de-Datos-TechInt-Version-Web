@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <title>Crear | TechInt Multinacional</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
+    <script type="text/javascript" th:src="@{/js/create.js}"></script>
+
+</head>
+
+<body>
+    <div th:insert="~{fragments/navbar :: navbar(create)}"></div>
+    <h2>Crear Nuevo Pais</h2>
+    <section class="page-card">
+        <h3>Informacion del Pais</h3>
+        <form th:action="@{/create}" method="post">
+            <div class="form-group">
+                <label for="paisnombre">Nombre del Pais</label>
+                <input type="text" id="paisnombre" nombre="paisnombre" placeholder="Ingrese el nombre del Pais"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="paiscapital">Capital del Pais</label>
+                <input type="text" id="paiscapital" nombre="paiscapital" placeholder="Ingrese la capital del Pais"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="paispoblacion">Poblacion del Pais</label>
+                <input type="number" id="paispoblacion" nombre="paispoblacion" placeholder="Poblacion" min="5000"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="paispbi">PBI del Pais</label>
+                <input type="" id="paispbi" nombre="paispbi" placeholder="PBI en Millones de USD" min="50" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Crear Pais</button>
+            </div>
+        </form>
+
+    </section>
+</body>
