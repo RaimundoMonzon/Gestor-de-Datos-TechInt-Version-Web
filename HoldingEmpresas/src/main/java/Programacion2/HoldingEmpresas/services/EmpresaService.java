@@ -16,4 +16,8 @@ public class EmpresaService {
     public List<Empresa> getAll() {
         return empresaReposiroty.findAll();
     }
+
+    public void save(Empresa empresa) {
+        empresaReposiroty.save(empresa);
+    }
 }

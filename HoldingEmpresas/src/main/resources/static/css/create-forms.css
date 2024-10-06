@@ -1,4 +1,3 @@
-
 /* General page styling */
 body {
     font-family: Arial, sans-serif;
@@ -49,6 +48,7 @@ section {
 
 .form-group input[type="text"],
 .form-group input[type="password"],
+.form-group input[type="date"],
 .form-group select {
     width: 100%;
     padding: 10px;
@@ -88,18 +88,8 @@ button:hover {
     }
 }
 
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input[type="date"] {
+/* Estilo para el campo de número */
+.form-group input[type="number"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -108,7 +98,90 @@ button:hover {
     font-size: 16px;
 }
 
-.form-group input[type="date"]::placeholder {
-    font-style: italic;
-    color: #888;
+.form-group input[type="number"]::-webkit-inner-spin-button,
+.form-group input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-group input[type="number"]:focus {
+    border-color: #4CAF50;
+}
+
+/* Estilos personalizados para Choices.js */
+.choices__inner {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+
+.choices__button {
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    padding: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.choices__list--dropdown .choices__item--selectable {
+    padding: 10px;
+    border-bottom: 1px solid #efefef;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.choices__list--dropdown .choices__item--selectable:hover {
+    background-color: #f0f0f0;
+}
+
+.choices__list--multiple .choices__item {
+    background-color: #007bff;
+    color: white;
+    border-radius: 3px;
+    margin-right: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.choices__inner:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Tamaño del selector de Choices.js */
+.choices__inner {
+    max-width: 100%;
+    min-width: 300px;
+    height: auto;
+}
+
+/* Tamaño del texto y espaciamiento de los elementos seleccionados */
+.choices__list--multiple .choices__item {
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-bottom: 2px;
+}
+
+/* Cambios de color personalizados */
+.choices__inner {
+    background-color: #ffffff;
+    border-color: #007bff;
+}
+
+.choices__list--multiple .choices__item {
+    background-color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.choices__list--dropdown .choices__item--selectable:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Transiciones suaves para una mejor experiencia */
+.choices__inner,
+.choices__list--multiple .choices__item {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }

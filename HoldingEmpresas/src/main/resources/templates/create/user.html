@@ -14,7 +14,7 @@
     <h2>Crear Nuevo Usuario</h2>
     <section class="page-card">
         <h3>Información del Usuario</h3>
-        <form th:action="@{/create}" method="post">
+        <form th:action="@{/create/user}" method="post">
             <div class="form-group">
                 <label for="username">Nombre de Usuario</label>
                 <input type="text" id="username" name="username" placeholder="Ingrese el nombre de usuario" required>
@@ -62,7 +62,7 @@
             <div id="asesor-fields" class="form-group">
                 <div class="form-group">
                     <label for="area">Area</label>
-                    <select id="area" name="area" required>
+                    <select id="areasoperadas" name="areasoperadas" required>
                         <option value="">Seleccione una Area</option>
                         <!-- Iterate over the areas list and create an option for each -->
                         <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}">

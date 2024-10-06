@@ -1,16 +1,26 @@
 package Programacion2.HoldingEmpresas.controller;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
+import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Area;
+import Programacion2.HoldingEmpresas.entities.Asesor;
 import Programacion2.HoldingEmpresas.entities.Empresa;
+import Programacion2.HoldingEmpresas.entities.Pais;
+import Programacion2.HoldingEmpresas.entities.Rol;
+import Programacion2.HoldingEmpresas.entities.UserEntity;
+import Programacion2.HoldingEmpresas.entities.Vendedor;
+import Programacion2.HoldingEmpresas.services.AreaService;
 import Programacion2.HoldingEmpresas.services.EmpresaService;
+import Programacion2.HoldingEmpresas.services.PaisService;
+import Programacion2.HoldingEmpresas.services.UserService;
 import lombok.AllArgsConstructor;
 
-import org.springframework.ui.Model;
 import java.util.List;
+import java.sql.Date;
 
 @Controller
 @RequestMapping("/create")
@@ -18,18 +28,66 @@ import java.util.List;
 public class CreateController {
 
     private final EmpresaService empresaService;
+    private final AreaService areaService;
+    private final PaisService paisService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    @GetMapping({"/", ""})
+    @GetMapping({ "/", "" })
     public String homeCreate(Model model) {
         return "create";
     }
 
     @GetMapping("/user")
-    public String userCreate(Model model) {
+    public String createUserForm(Model model) {
         List<Empresa> empresas = empresaService.getAll();
         List<Area> areas = areaService.getAll();
         model.addAttribute("empresas", empresas);
+        model.addAttribute("areas", areas);
         return "create/user";
+    }
+
+    @PostMapping("/user")
+    public String createUser(
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam Date fechaIngreso,
+            @RequestParam Rol rol,
+            @RequestParam(required = false) Empresa empresa,
+            @RequestParam(required = false) List<Area> areas,
+            @RequestParam(required = false) String titulacion) {
+        switch (rol) {
+            case ADMIN:
+                Administrador admin = new Administrador();
+                admin.setUsername(username);
+                admin.setPassword(passwordEncoder.encode(password));
+                admin.setFechaIngreso(fechaIngreso);
+                admin.setRol(rol);
+                userService.save(admin);
+                break;
+            case ASESOR:
+                Asesor asesor = new Asesor();
+                asesor.setUsername(username);
+                asesor.setPassword(passwordEncoder.encode(password));
+                asesor.setFechaIngreso(fechaIngreso);
+                asesor.setRol(rol);
+                asesor.setAreasOperadas(areas);
+                asesor.setTitulacion(titulacion);
+                userService.save(asesor);
+                break;
+            case VENDEDOR:
+                Vendedor vendedor = new Vendedor();
+                vendedor.setUsername(username);
+                vendedor.setPassword(passwordEncoder.encode(password));
+                vendedor.setFechaIngreso(fechaIngreso);
+                vendedor.setRol(rol);
+                vendedor.setEmpresa(empresa);
+                userService.save(vendedor);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid Rol");
+        }
+        return "redirect:/home";
     }
 
     @GetMapping("/pais")
@@ -37,14 +95,67 @@ public class CreateController {
         return "create/pais";
     }
 
+    @PostMapping("/pais")
+    public String createPais(
+            @RequestParam String nombre,
+            @RequestParam String capital,
+            @RequestParam Long poblacion,
+            @RequestParam Float pbi) {
+        Pais pais = new Pais();
+        pais.setNombrePais(nombre);
+        pais.setCapital(capital);
+        pais.setPoblacion(poblacion);
+        pais.setPbi(pbi);
+        paisService.save(pais);
+        return "redirect:/home";
+    }
+
     @GetMapping("/area")
     public String areaCreate() {
         return "create/area";
     }
 
+    @PostMapping("/area")
+    public String createArea(
+            @RequestParam String nombre,
+            @RequestParam String descripcion) {
+        Area area = new Area();
+        area.setNombreArea(nombre);
+        area.setDescripcion(descripcion);
+        areaService.save(area);
+        return "redirect:/home";
+    }
+
     @GetMapping("/empresa")
-    public String empresaCreate() {
+    public String empresaCreate(Model model) {
+        List<Area> areas = areaService.getAll();
+        List<Pais> paises = paisService.getAll();
+        List<? extends UserEntity> users = userService.getByRol(Rol.VENDEDOR);
+        model.addAttribute("areas", areas);
+        model.addAttribute("paises", paises);
+        model.addAttribute("users", users);
         return "create/empresa";
+    }
+
+    @PostMapping("/empresa")
+    public String createEmpresa(
+            @RequestParam String nombre,
+            @RequestParam String sede,
+            @RequestParam List<Pais> paisesOperados,
+            @RequestParam List<Area> areasOperadas,
+            @RequestParam(required = false) List<Vendedor> vendedoresContratados,
+            @RequestParam Date fechaIngreso,
+            @RequestParam Float fta) {
+        Empresa empresa = new Empresa();
+        empresa.setNombreEmpresa(nombre);
+        empresa.setSede(sede);
+        empresa.setPaisesOperados(paisesOperados);
+        empresa.setAreasOperadas(areasOperadas);
+        empresa.setVendedoresContratados(vendedoresContratados);
+        empresa.setFechaIngreso(fechaIngreso);
+        empresa.setFta(fta);
+        empresaService.save(empresa);
+        return "redirect:/home";
     }
 
 }

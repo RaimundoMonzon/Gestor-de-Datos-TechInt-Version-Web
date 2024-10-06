@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 import Programacion2.HoldingEmpresas.repositories.UserRepository;
 import Programacion2.HoldingEmpresas.entities.Administrador;
+import Programacion2.HoldingEmpresas.entities.Asesor;
 import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
+import Programacion2.HoldingEmpresas.entities.Vendedor;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
-    
+
     private final UserRepository repositorio;
     private final PasswordEncoder passwordEncoder;
 
@@ -32,20 +34,33 @@ public class UserService {
         return repositorio.findByUsername(username);
     }
 
+    public List<? extends UserEntity> getByRol(Rol rol) {
+        switch (rol) {
+            case ADMIN:
+                return repositorio.findByRol(rol);
+            case ASESOR:
+                return repositorio.findByRol(rol);
+            case VENDEDOR:
+                return repositorio.findByRol(rol);
+            default:
+                throw new IllegalArgumentException("Rol no válido: " + rol);
+        }
+    }
+
     public List<UserEntity> filterUsers(String username, String rol, Long id) {
-        if(id != null) {
+        if (id != null) {
             return repositorio.findByIdOrUsernameContainingIgnoreCase(id, null);
         }
 
-        if(username != null && !username.isEmpty() && rol != null && !rol.isEmpty()) {
+        if (username != null && !username.isEmpty() && rol != null && !rol.isEmpty()) {
             return repositorio.findByUsernameContainingIgnoreCaseAndRol(username, Rol.valueOf(rol));
         }
 
-        if(rol != null&& !rol.isEmpty()) {
+        if (rol != null && !rol.isEmpty()) {
             return repositorio.findByRol(Rol.valueOf(rol));
         }
 
-        if(username != null && !username.isEmpty()) {
+        if (username != null && !username.isEmpty()) {
             return repositorio.findByUsernameContainingIgnoreCase(username);
         }
 
@@ -55,6 +70,7 @@ public class UserService {
     public long count() {
         return repositorio.count();
     }
+
     public Boolean isAnyUserRegistered() {
         return count() > 0;
     }
@@ -65,6 +81,10 @@ public class UserService {
         usuario.setPassword(passwordEncoder.encode(password));
         usuario.setRol(Rol.ADMIN);
         repositorio.save(usuario);
+    }
+
+    public void save(UserEntity user) {
+        repositorio.save(user);
     }
 
     public UserEntity getLoggedUser() {
