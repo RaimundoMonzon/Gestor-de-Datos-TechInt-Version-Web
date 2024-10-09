@@ -5,11 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import Programacion2.HoldingEmpresas.repositories.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import Programacion2.HoldingEmpresas.entities.Administrador;
-import Programacion2.HoldingEmpresas.entities.Asesor;
 import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
-import Programacion2.HoldingEmpresas.entities.Vendedor;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -21,6 +20,7 @@ public class UserService {
 
     private final UserRepository repositorio;
     private final PasswordEncoder passwordEncoder;
+    private final HttpSession session;
 
     public List<UserEntity> getAll() {
         return repositorio.findAll();
@@ -98,5 +98,10 @@ public class UserService {
     public Boolean isSomeoneAuthenticated() {
         var user = SecurityContextHolder.getContext().getAuthentication();
         return user != null && user.isAuthenticated() && !user.getPrincipal().equals("anonymousUser");
+    }
+
+    public void logout() {
+        SecurityContextHolder.clearContext();
+        session.invalidate();
     }
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <link rel="stylesheet" th:href="@{/css/logout.css}">
+</head>
+
+<body>
+    <section class="page-card">
+        <h2>Logout Exitoso</h2>
+        <p>Has cerrado sesión correctamente.</p>
+        <form th:action="@{/home}" method="get">
+            <button type="submit">Volver a Inicio</button>
+        </form>
+    </section>
+</body>
+
+</html>

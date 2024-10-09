@@ -19,15 +19,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity 
+@Entity
 @Table(name = "empresas")
 public class Empresa {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,27 +45,21 @@ public class Empresa {
     @Column()
     private Float fta; // Facturacion Total Anual
 
-    @ManyToMany
-    @JoinTable(
-        name = "empresa_pais", 
-        joinColumns = @JoinColumn(name = "empresa_id"), 
-        inverseJoinColumns = @JoinColumn(name = "pais_id")
-    ) private List<Pais> paisesOperados;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "empresa_pais", joinColumns = @JoinColumn(name = "empresa_id"), inverseJoinColumns = @JoinColumn(name = "pais_id"))
+    @ToString.Exclude
+    private List<Pais> paisesOperados;
 
-    @ManyToMany
-    @JoinTable(
-        name = "empresa_area", 
-        joinColumns = @JoinColumn(name = "empresa_id"), 
-        inverseJoinColumns = @JoinColumn(name = "area_id")
-    ) private List<Area> areasOperadas;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "empresa_area", joinColumns = @JoinColumn(name = "empresa_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
+    @ToString.Exclude
+    private List<Area> areasOperadas;
 
-    @OneToMany(
-        targetEntity = Vendedor.class, 
-        fetch = FetchType.LAZY, 
-        mappedBy = "empresa", 
-        cascade = CascadeType.ALL
-    ) private List<Vendedor> vendedoresContratados;
+    @OneToMany(targetEntity = Vendedor.class, fetch = FetchType.LAZY, mappedBy = "empresa")
+    @ToString.Exclude
+    private List<Vendedor> vendedoresContratados;
 
     @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Contrato> contratosAsesores;
 }

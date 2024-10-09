@@ -1,0 +1,112 @@
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Container for the entire profile page */
+.profile-container {
+    display: flex;
+    justify-content: center; /* Center both sections horizontally */
+    align-items: flex-start;
+    padding: 20px;
+    gap: 30px; /* Space between two sections */
+}
+
+/* General styles for the user info panel */
+.profile-info, .additional-info {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px; /* Fixed width for each section */
+    box-sizing: border-box;
+}
+
+h3 {
+    font-size: 18px;
+    color: #28a745;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Styling for the labels and values */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #444;
+    font-size: 16px;
+}
+
+.form-group p {
+    font-size: 16px;
+    color: #666;
+    margin: 5px 0 0;
+}
+
+ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+ul li {
+    font-size: 16px;
+    color: #666;
+}
+
+/* For when only one section is present */
+.profile-container.single-column {
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styling for the action button */
+.form-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form-actions button {
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-actions button:hover {
+    background-color: #218838;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column; /* Stack sections vertically on smaller screens */
+        align-items: center;
+    }
+
+    .profile-info, .additional-info {
+        width: 100%; /* Full width on smaller screens */
+    }
+
+    h3 {
+        text-align: center;
+    }
+}

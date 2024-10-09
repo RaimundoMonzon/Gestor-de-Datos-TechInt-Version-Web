@@ -1,49 +1,135 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Buscar | TechInt Multinacional</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" type="text/css" href="/css/busqueda.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/busqueda.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const entitySelect = new Choices('#entidad', { removeItemButton: false });
+            const attributesSelect = new Choices('#atributos', { removeItemButton: true, placeholderValue: 'Atributos' });
+        });
+    </script>
 </head>
+
 <body>
-    <div th:insert="~{fragments/navbar :: navbar('busqueda')}"></div>
-    <section>
-        <h2>Usuarios Registrados</h2>
-        <form th:action="@{/busqueda}" method="get">
-            <label for="username">Nombre:</label>
-            <input type="text" id="username" name="username" placeholder="Nombre del Usuario"
-                   th:value="${username}"> <!-- Bind 'username' value to input -->
-        
-            <label for="rol">Rol:</label>
-            <select id="rol" name="rol">
-                <option value="" th:selected="${rol == ''}">Todos los Roles</option>
-                <option value="ADMIN" th:selected="${rol == 'ADMIN'}">ADMIN</option>
-                <option value="ASESOR" th:selected="${rol == 'ASESOR'}">ASESOR</option>
-                <option value="VENDEDOR" th:selected="${rol == 'VENDEDOR'}">VENDEDOR</option>
-            </select>
-        
-            <label for="id">ID:</label>
-            <input type="number" id="id" name="id" placeholder="ID del Usuario"
-                   th:value="${id}"> <!-- Bind 'id' value to input -->
-        
-            <button type="submit">Aplicar Filtros</button>
-        </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Rol</th>
-                    <th>ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="usuario : ${usuarios}">
-                    <td th:text="${usuario.username}"></td>
-                    <td th:text="${usuario.rol}"></td>
-                    <td th:text="${usuario.id}"></td>
-                </tr>
-            </tbody>
-        </table>      
+    <div class="navbar" th:insert="~{fragments/navbar :: navbar('busqueda')}"></div>
+
+    <section class="container">
+        <div class="filters">
+            <h3>Filtros</h3>
+            <form th:action="@{/busqueda}" method="get">
+                <div class="form-group">
+                    <label for="entidad">Entidad a buscar:</label>
+                    <input type="hidden" th:if="${entidad == ''}" name="entidad" value="USERS">
+                    <select id="entidad" name="entidad">
+                        <option value="USERS" selected>Todos los usuarios</option>
+                        <optgroup label="Usuarios por tipo">
+                            <option value="ADMIN">Admin</option>
+                            <option value="ASESOR">Asesor</option>
+                            <option value="VENDEDOR">Vendedor</option>
+                        </optgroup>
+                        <option value="EMPRESA">Empresa</option>
+                        <option value="AREA">Area</option>
+                        <option value="PAIS">Pais</option>
+                        <option value="CONTRATOS">Contrato</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="atributos">Atributos:</label>
+                    <select id="atributos" name="atributos[]" multiple>
+                        <!-- Common attributes for all entities -->
+                        <option value="id">ID</option>
+
+                        <!-- Conditionally render attributes based on the selected entity -->
+                        <option th:if="${entidad == 'USERS' || entidad == 'ADMIN'}" value="userName">Nombre</option>
+                        <option th:if="${entidad == 'USERS' || entidad == 'ADMIN' || entidad == 'EMPRESA'}"
+                            value="fechaIngreso">Fecha Ingreso</option>
+                        <option th:if="${entidad == 'USERS' || entidad == 'ADMIN'}" value="rol">Rol</option>
+
+                        <!-- Vendedor-specific attributes -->
+                        <option th:if="${entidad == 'VENDEDOR'}" value="manager">Manager</option>
+                        <option th:if="${entidad == 'VENDEDOR'}" value="ingresos">Ingresos</option>
+                        <option th:if="${entidad == 'VENDEDOR'}" value="empresa">Empresa</option>
+
+                        <!-- Asesor-specific attributes -->
+                        <option th:if="${entidad == 'ASESOR'}" value="titulacion">Titulación</option>
+                        <option th:if="${entidad == 'ASESOR'}" value="areasOperadas">Áreas Operadas</option>
+
+                        <!-- Empresa-specific attributes -->
+                        <option th:if="${entidad == 'EMPRESA'}" value="nombreEmpresa">Nombre de la Empresa</option>
+                        <option th:if="${entidad == 'EMPRESA'}" value="sede">Sede</option>
+                        <option th:if="${entidad == 'EMPRESA'}" value="fta">Facturación</option>
+                        <option th:if="${entidad == 'EMPRESA'}" value="paisesOperados">Países Operados</option>
+                        <option th:if="${entidad == 'EMPRESA'}" value="areasOperados">Áreas Operadas</option>
+                        <option th:if="${entidad == 'EMPRESA'}" value="vendedoresContratados">Vendedores Contratados
+                        </option>
+                        <option th:if="${entidad == 'EMPRESA'}" value="asesoresContratados">Asesores Contratados
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="id-search">Buscar por ID:</label>
+                    <input type="number" id="id-search" name="id" placeholder="Ingrese un ID">
+                </div>
+
+                <div class="form-group">
+                    <label for="name-search">Buscar por Nombre:</label>
+                    <input type="text" id="name-search" name="nombre" placeholder="Ingrese un nombre">
+                </div>
+
+                <button type="submit">Aplicar Filtros</button>
+            </form>
+        </div>
+
+        <div class="results">
+            <h3>Results</h3>
+            <table>
+                <thead>
+                    <tr th:if="${atributos != null}">
+                        <th th:if="${atributos.contains('id')}">ID</th>
+                        <th th:if="${atributos.contains('userName')}">Nombre</th>
+                        <th th:if="${atributos.contains('fechaIngreso')}">Fecha de Ingreso</th>
+                        <th th:if="${atributos.contains('rol')}">Rol</th>
+                        <th th:if="${atributos.contains('manager')}">Manager</th>
+                        <th th:if="${atributos.contains('ingresos')}">Ingresos</th>
+                        <th th:if="${atributos.contains('empresa')}">Empresa</th>
+                        <th th:if="${atributos.contains('titulacion')}">Titulación</th>
+                        <th th:if="${atributos.contains('areasOperadas')}">Áreas Operadas</th>
+                        <th th:if="${atributos.contains('nombreEmpresa')}">Nombre</th>
+                        <th th:if="${atributos.contains('sede')}">Sede</th>
+                        <th th:if="${atributos.contains('fta')}">Facturacion Anual</th>
+                        <th th:if="${atributos.contains('paisesOperados')}">Paises Operados</th>
+                        <th th:if="${atributos.contains('areasOperados')}">Areas Operados</th>
+                        <th th:if="${atributos.contains('vendedoresContratados')}">Vendedores Contratados</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${entidad == 'USERS' || entidad == 'ADMIN'}" th:each="usuario : ${usuarios}">
+                        <!-- Dynamically display table data based on selected attributes -->
+                        <td th:if="${atributos.contains('id')}" th:text="${usuario.id}">ID</td>
+                        <td th:if="${atributos.contains('userName')}" th:text="${usuario.username}">Nombre</td>
+                        <td th:if="${atributos.contains('rol')}" th:text="${usuario.rol}">Rol</td>
+                        <td th:if="${atributos.contains('fechaIngreso')}" th:text="${#dates.format(usuario.fechaIngreso, 'dd/MM/yyyy')}">Fecha de Ingreso</td>
+                        <td th:if="${atributos.contains('manager')}" th:text="${usuario.manager}">Manager</td>
+                        <td th:if="${atributos.contains('ingresos')}" th:text="${usuario.ingresosTotales}">Ingresos</td>
+                        <td th:if="${atributos.contains('empresa')}" th:text="${usuario.empresa.nombreEmpresa}">Empresa</td>
+                        <td th:if="${atributos.contains('titulacion')}" th:text="${usuario.titulacion}">Titulación</td>
+                        <td th:if="${atributos.contains('areasOperadas')}" th:each="area : ${usuario.areasOperadas}" th:text="${area.nombreArea}">Áreas Operadas</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
     </section>
 </body>
+
 </html>

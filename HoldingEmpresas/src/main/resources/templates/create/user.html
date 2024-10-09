@@ -5,8 +5,19 @@
     <title>Crear | TechInt Multinacional</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script type="text/javascript" th:src="@{/js/create.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const areas = document.getElementById('areasOperadas');
 
+            const choicesAreas = new Choices(areas, {
+                removeItemButton: true,
+                placeholderValue: 'Seleccione una o más Áreas'
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -37,33 +48,42 @@
 
             <div class="form-group">
                 <label for="rol">Rol</label>
-                <select id="rol" name="rol" required>
+                <select th:if="${#authentication.principal.rol.name() == 'ADMIN' }" id="rol" name="rol" required>
                     <option value="">Seleccion de Rol</option>
                     <option value="ADMIN">Administrador</option>
                     <option value="VENDEDOR">Vendedor</option>
                     <option value="ASESOR">Asesor</option>
                 </select>
+                <select th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" id="rol" name="rol" disabled>
+                    <option value="VENDEDOR" selected>Vendedor</option>
+                </select>
+                <input type="hidden" th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" name="rol" value="VENDEDOR">
             </div>
 
             <!-- CAMPOS ADICIONALES DEl VENDEDOR -->
             <div id="vendedor-fields">
                 <div class="form-group">
                     <label for="empresa">Empresa</label>
-                    <select id="empresa" name="empresa" required>
+                    <select th:if="${#authentication.principal.rol.name() == 'ADMIN' }" id="empresa" name="empresa"
+                        required>
                         <option value="">Seleccion de Empresa</option>
                         <!-- Iterate over the empresas list and create an option for each -->
                         <option th:each="empresa : ${empresas}" th:value="${empresa.id}"
                             th:text="${empresa.nombreEmpresa}"></option>
                     </select>
+                    <select th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" id="empresa" name="empresa" disabled>
+                        <option th:value="${vendedor.empresa.id}" th:text="${vendedor.empresa.nombreEmpresa}"></option>
+                    </select>
+                    <input type="hidden" th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" name="empresa" th:value="${vendedor.empresa.id}">
                 </div>
             </div>
 
             <!-- CAMPOS ADICIONALES DEl ASESOR -->
             <div id="asesor-fields" class="form-group">
                 <div class="form-group">
-                    <label for="area">Area</label>
-                    <select id="areasoperadas" name="areasoperadas" required>
-                        <option value="">Seleccione una Area</option>
+                    <label for="areasOperadas">Area</label>
+                    <select id="areasOperadas" name="areasOperadas[]" multiple required>
+                        <option value=""></option>
                         <!-- Iterate over the areas list and create an option for each -->
                         <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}">
                         </option>

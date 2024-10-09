@@ -19,7 +19,7 @@ public class Asesor extends UserEntity{
     @Column()
     private String titulacion;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "asesor_area", 
         joinColumns = @JoinColumn(name = "asesor_id"), 
@@ -28,7 +28,7 @@ public class Asesor extends UserEntity{
 
     @OneToMany(
         targetEntity = Contrato.class, 
-        fetch = FetchType.LAZY,
+        fetch = FetchType.EAGER,
         mappedBy = "asesor",
         cascade = CascadeType.ALL
     ) private List<Contrato> contratos;

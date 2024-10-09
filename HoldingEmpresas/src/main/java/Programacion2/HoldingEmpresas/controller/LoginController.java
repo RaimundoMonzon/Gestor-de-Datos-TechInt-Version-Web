@@ -22,7 +22,13 @@ public class LoginController {
         if(!userService.isAnyUserRegistered()) {
             return "redirect:/register";
         }
-        return "login";  
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        userService.logout();
+        return "logout-success";
     }
 
     @GetMapping("/register")

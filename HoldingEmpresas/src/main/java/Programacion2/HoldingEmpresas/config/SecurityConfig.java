@@ -35,8 +35,10 @@ public class SecurityConfig {
                     .requestMatchers("/login", "/register", "/logout").permitAll()
 
                     // Todas las demás rutas requieren autenticación
-                    .requestMatchers("/home").hasRole("ADMIN")
-                    .requestMatchers("/busqueda").hasRole("ADMIN")
+                    .requestMatchers("/profile").hasAnyRole("ADMIN", "ASESOR", "VENDEDOR")
+                    .requestMatchers("/home").hasAnyRole("ADMIN", "ASESOR", "VENDEDOR")
+                    .requestMatchers("/busqueda").hasAnyRole("ADMIN", "VENDEDOR")
+                    .requestMatchers("/create/user").hasAnyRole("ADMIN", "VENDEDOR")
                     .requestMatchers("/create/**").hasRole("ADMIN")
 
                     .anyRequest().authenticated()
@@ -46,8 +48,10 @@ public class SecurityConfig {
                     .loginPage("/login")  // Página de login personalizada
                     .defaultSuccessUrl("/home", true)  // Redirigir a /home tras el login exitoso (opcional)
             )
-            .logout(logout -> 
-                logout.permitAll()  // Permitir logout sin autenticación
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/logout-success")
+                .permitAll()
             );
 
         return http.build();

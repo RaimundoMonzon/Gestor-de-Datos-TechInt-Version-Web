@@ -44,6 +44,10 @@ public class CreateController {
         List<Area> areas = areaService.getAll();
         model.addAttribute("empresas", empresas);
         model.addAttribute("areas", areas);
+        if(userService.getLoggedUserRol() == "VENDEDOR") {
+            model.addAttribute("vendedor", userService.getLoggedUser());
+        }
+
         return "create/user";
     }
 
@@ -54,7 +58,7 @@ public class CreateController {
             @RequestParam Date fechaIngreso,
             @RequestParam Rol rol,
             @RequestParam(required = false) Empresa empresa,
-            @RequestParam(required = false) List<Area> areas,
+            @RequestParam(required = false) List<Area> areasOperadas,
             @RequestParam(required = false) String titulacion) {
         switch (rol) {
             case ADMIN:
@@ -71,7 +75,7 @@ public class CreateController {
                 asesor.setPassword(passwordEncoder.encode(password));
                 asesor.setFechaIngreso(fechaIngreso);
                 asesor.setRol(rol);
-                asesor.setAreasOperadas(areas);
+                asesor.setAreasOperadas(areasOperadas);
                 asesor.setTitulacion(titulacion);
                 userService.save(asesor);
                 break;
@@ -83,6 +87,11 @@ public class CreateController {
                 vendedor.setRol(rol);
                 vendedor.setEmpresa(empresa);
                 userService.save(vendedor);
+                if(userService.getLoggedUserRol() == "VENDEDOR") {
+                    Vendedor manager = (Vendedor) userService.getLoggedUser();
+                    manager.getSubContratados().add(vendedor);
+                    userService.save(manager);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid Rol");

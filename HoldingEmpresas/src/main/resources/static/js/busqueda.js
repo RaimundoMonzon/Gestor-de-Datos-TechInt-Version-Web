@@ -1,7 +1,5 @@
-// Wait for the DOM to load
-
 document.addEventListener("DOMContentLoaded", function () {
-    const roleSelect = document.getElementById("rol");
+    const entidadSelecta = document.getElementById("entidad");
     const vendedorFields = document.getElementById("vendedor-fields");
     const asesorFields = document.getElementById("asesor-fields");
 
@@ -19,14 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
             empresaField.setAttribute("required", "required");
             areasField.removeAttribute("required")
             titulacionField.removeAttribute("required")
-        }
-        // Muestra los campos extras del ASESOR.
-        else if (selectedRole === "ASESOR") {
-            vendedorFields.style.display = "none";  
-            asesorFields.style.display = "block";
-            empresaField.removeAttribute("required");
-            areasField.setAttribute("required", "required")
-            titulacionField.setAttribute("required", "required")
         }
         // Oculta ambos campos en caso de que ninguno este seleccionado.
         else {
