@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
+import Programacion2.HoldingEmpresas.entities.Vendedor;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -45,6 +46,10 @@ public class UserService {
             default:
                 throw new IllegalArgumentException("Rol no válido: " + rol);
         }
+    }
+
+    public Vendedor getManager(Vendedor vendedor) {
+        return repositorio.findManager(vendedor);
     }
 
     public List<UserEntity> filterUsers(String username, String rol, Long id) {
