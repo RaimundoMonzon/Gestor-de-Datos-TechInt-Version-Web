@@ -24,6 +24,9 @@ public class Vendedor extends UserEntity{
     @JoinColumn(name = "manager_id")
     @ToString.Exclude private List<Vendedor> subContratados;
 
+    @Column(name = "manager_id", insertable = false, updatable = false)
+    private Long managerID;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;

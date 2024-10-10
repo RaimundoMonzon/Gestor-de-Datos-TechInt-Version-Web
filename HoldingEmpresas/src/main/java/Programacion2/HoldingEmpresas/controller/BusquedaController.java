@@ -2,7 +2,6 @@ package Programacion2.HoldingEmpresas.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
@@ -16,6 +15,7 @@ import Programacion2.HoldingEmpresas.entities.Empresa;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import java.util.List;
+import java.util.ArrayList;
 
 @Controller
 @AllArgsConstructor
@@ -60,8 +60,21 @@ public class BusquedaController {
             model.addAttribute("atributos", atributos);
         } else {
             List<UserEntity> usuarios = userService.filterUsers(nombre, rol, id);
-            model.addAttribute("usuarios", usuarios);
+            atributos = new ArrayList<>();
+            atributos.add("id");
+            atributos.add("username");
+            atributos.add("fechaIngreso");
+            atributos.add("rol");
+            atributos.add("areasOperadas");
+            atributos.add("titulacion");
+            atributos.add("empresa");
+            atributos.add("manager");
+            atributos.add("subContratados");
+            atributos.add("ingresos");
             entidad = "USERS";
+            model.addAttribute("atributos", atributos);
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("entidad", entidad);
         }
 
         // Se los dedvuevlo para que mantengan persistencia

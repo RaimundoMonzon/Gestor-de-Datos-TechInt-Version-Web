@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
@@ -46,10 +48,6 @@ public class UserService {
             default:
                 throw new IllegalArgumentException("Rol no válido: " + rol);
         }
-    }
-
-    public Vendedor getManager(Vendedor vendedor) {
-        return repositorio.findManager(vendedor);
     }
 
     public List<UserEntity> filterUsers(String username, String rol, Long id) {
@@ -85,6 +83,7 @@ public class UserService {
         usuario.setUsername(username);
         usuario.setPassword(passwordEncoder.encode(password));
         usuario.setRol(Rol.ADMIN);
+        usuario.setFechaIngreso(Date.valueOf(LocalDate.now()));
         repositorio.save(usuario);
     }
 

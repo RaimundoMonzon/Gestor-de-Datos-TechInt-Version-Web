@@ -42,7 +42,7 @@
                     <label>Empresa:</label>
                     <p th:text="${user.empresa.nombreEmpresa}">Nombre de la Empresa</p>
                 </div>
-                <div class="form-group">
+                <div th:if="${manager}" class="form-group">
                     <label>Manager:</label>
                     <p th:text="${manager.username}">Nombre de la Empresa</p>
                 </div>

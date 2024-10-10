@@ -20,10 +20,9 @@
 <body>
     <div class="navbar" th:insert="~{fragments/navbar :: navbar('busqueda')}"></div>
 
-    <section class="container">
-        <div class="filters">
-            <h3>Filtros</h3>
-            <form th:action="@{/busqueda}" method="get">
+    <div class="container">
+            <form class="filters" th:action="@{/busqueda}" method="get">
+                <h3>Filtros</h3>
                 <div class="form-group">
                     <label for="entidad">Entidad a buscar:</label>
                     <input type="hidden" th:if="${entidad == ''}" name="entidad" value="USERS">
@@ -68,7 +67,7 @@
                         <option th:if="${entidad == 'EMPRESA'}" value="fta">Facturación</option>
                         <option th:if="${entidad == 'EMPRESA'}" value="paisesOperados">Países Operados</option>
                         <option th:if="${entidad == 'EMPRESA'}" value="areasOperados">Áreas Operadas</option>
-                        <option th:if="${entidad == 'EMPRESA'}" value="vendedoresContratados">Vendedores Contratados
+                        <option th:if="${entidad == 'EMPRESA'}" value="subContratados">Vendedores Contratados
                         </option>
                         <option th:if="${entidad == 'EMPRESA'}" value="asesoresContratados">Asesores Contratados
                         </option>
@@ -87,49 +86,63 @@
 
                 <button type="submit">Aplicar Filtros</button>
             </form>
-        </div>
 
         <div class="results">
             <h3>Results</h3>
             <table>
                 <thead>
                     <tr th:if="${atributos != null}">
-                        <th th:if="${atributos.contains('id')}">ID</th>
-                        <th th:if="${atributos.contains('userName')}">Nombre</th>
-                        <th th:if="${atributos.contains('fechaIngreso')}">Fecha de Ingreso</th>
+                        <!-- Atributos de todos los Usuarios -->
+                        <th>ID</th>
+                        <th th:if="${atributos.contains('username')}">Nombre</th>
                         <th th:if="${atributos.contains('rol')}">Rol</th>
+                        <th th:if="${atributos.contains('fechaIngreso')}">Fecha de Ingreso</th>
+                        <!-- Atributos de los ASESORES -->
+                        <th th:if="${atributos.contains('titulacion')}">Titulacion</th>
+                        <th th:if="${atributos.contains('areasOperadas')}">Areas Operadas</th>
+                        <!-- Atributos de los VENDEDORES -->
                         <th th:if="${atributos.contains('manager')}">Manager</th>
                         <th th:if="${atributos.contains('ingresos')}">Ingresos</th>
                         <th th:if="${atributos.contains('empresa')}">Empresa</th>
-                        <th th:if="${atributos.contains('titulacion')}">Titulación</th>
-                        <th th:if="${atributos.contains('areasOperadas')}">Áreas Operadas</th>
+                        <th th:if="${atributos.contains('subContratados')}">Vendedores Contratados</th>
+                        <!-- Atributos de las EMPRESAS -->
                         <th th:if="${atributos.contains('nombreEmpresa')}">Nombre</th>
                         <th th:if="${atributos.contains('sede')}">Sede</th>
                         <th th:if="${atributos.contains('fta')}">Facturacion Anual</th>
                         <th th:if="${atributos.contains('paisesOperados')}">Paises Operados</th>
-                        <th th:if="${atributos.contains('areasOperados')}">Areas Operados</th>
-                        <th th:if="${atributos.contains('vendedoresContratados')}">Vendedores Contratados</th>
-
+                        <th th:if="${atributos.contains('areasOperadasEmp')}">Areas Operadas Empresas</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:if="${entidad == 'USERS' || entidad == 'ADMIN'}" th:each="usuario : ${usuarios}">
-                        <!-- Dynamically display table data based on selected attributes -->
-                        <td th:if="${atributos.contains('id')}" th:text="${usuario.id}">ID</td>
-                        <td th:if="${atributos.contains('userName')}" th:text="${usuario.username}">Nombre</td>
+                        <!-- Atributos de todos los Usuarios -->
+                        <td th:text="${usuario.id}">ID</td>
+                        <td th:if="${atributos.contains('username')}" th:text="${usuario.username}">Nombre</td>
                         <td th:if="${atributos.contains('rol')}" th:text="${usuario.rol}">Rol</td>
                         <td th:if="${atributos.contains('fechaIngreso')}" th:text="${#dates.format(usuario.fechaIngreso, 'dd/MM/yyyy')}">Fecha de Ingreso</td>
-                        <td th:if="${atributos.contains('manager')}" th:text="${usuario.manager}">Manager</td>
-                        <td th:if="${atributos.contains('ingresos')}" th:text="${usuario.ingresosTotales}">Ingresos</td>
-                        <td th:if="${atributos.contains('empresa')}" th:text="${usuario.empresa.nombreEmpresa}">Empresa</td>
-                        <td th:if="${atributos.contains('titulacion')}" th:text="${usuario.titulacion}">Titulación</td>
-                        <td th:if="${atributos.contains('areasOperadas')}" th:each="area : ${usuario.areasOperadas}" th:text="${area.nombreArea}">Áreas Operadas</td>
+                        <!-- Atributos de los ASESORES -->
+                        <td th:text="${atributos.contains('titulacion') and usuario.rol.name() == 'ASESOR'} ? ${usuario.titulacion} : '-'">Titulación</td>
+                        <td th:if="${atributos.contains('areasOperadas') }">
+                            <ul th:if="${usuario.rol.name() == 'ASESOR'}">
+                                <li th:each="area : ${usuario.areasOperadas}" th:text="${area.nombreArea}">Areas Operadas</li>
+                            </ul>
+                            <ul th:unless="${usuario.rol.name() == 'ASESOR'}">-</ul>
+                        </td>
+                        <!-- Atributos de los VENDEDORES -->
+                        <td th:text="${atributos.contains('manager') and usuario.rol.name() == 'VENDEDOR'} ? ${usuario.managerID} : '-'">Manager</td>
+                        <td th:text="${atributos.contains('ingresos') and usuario.rol.name() == 'VENDEDOR'} ? ${usuario.ingresosTotales} : '0,00'">Ingresos</td>
+                        <td th:text="${atributos.contains('empresa') and usuario.rol.name() == 'VENDEDOR'} ? ${usuario.empresa.nombreEmpresa} : '-'">Empresa</td>
+                        <td th:if="${atributos.contains('subContratados')}">
+                            <ul th:if="${usuario.rol.name() == 'VENDEDOR'}">
+                                <li th:each="vendedor : ${usuario.subContratados}" th:text="${vendedor.username}">Subcontratados</li>
+                            </ul>
+                            <ul th:unless="${usuario.rol.name() == 'VENDEDOR'}">-</ul>
+                        </td>
                     </tr>
-
                 </tbody>
             </table>
         </div>
-    </section>
+    </div>
 </body>
 
 </html>
