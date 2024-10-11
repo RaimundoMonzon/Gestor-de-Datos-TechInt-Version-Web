@@ -10,10 +10,104 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
+        const mapaAtributos = {
+            'USERS': [
+                { value: 'id', text: 'ID' },
+                { value: 'username', text: 'Nombre' },
+                { value: 'rol', text: 'Rol' },
+                { value: 'fechaIngreso', text: 'Fecha Ingreso' },
+                { value: 'titulacion', text: 'Titulación' },
+                { value: 'areasOperadas', text: 'Áreas Operadas' },
+                { value: 'ingresos', text: 'Ingresos' },
+                { value: 'empresa', text: 'Empresa' },
+                { value: 'manager', text: 'Manager' },
+                { value: 'subContratados', text: 'Vendedores Contratados' }
+            ],
+            'ADMIN': [
+                { value: 'id', text: 'ID' },
+                { value: 'username', text: 'Nombre' },
+                { value: 'rol', text: 'Rol' },
+                { value: 'fechaIngreso', text: 'Fecha Ingreso' }
+            ],
+            'ASESOR': [
+                { value: 'id', text: 'ID' },
+                { value: 'username', text: 'Nombre' },
+                { value: 'rol', text: 'Rol' },
+                { value: 'fechaIngreso', text: 'Fecha Ingreso' },
+                { value: 'titulacion', text: 'Titulación' },
+                { value: 'areasOperadas', text: 'Áreas Operadas' }
+            ],
+            'VENDEDOR': [
+                { value: 'id', text: 'ID' },
+                { value: 'username', text: 'Nombre' },
+                { value: 'rol', text: 'Rol' },
+                { value: 'fechaIngreso', text: 'Fecha Ingreso' },
+                { value: 'ingresos', text: 'Ingresos' },
+                { value: 'empresa', text: 'Empresa' },
+                { value: 'manager', text: 'Manager' },
+                { value: 'vendedoresContratados', text: 'Vendedores Contratados' }
+            ],
+            'EMPRESA': [
+                { value: 'id', text: 'ID' },
+                { value: 'nombreEmpresa', text: 'Nombre' },
+                { value: 'fechaIngreso', text: 'Fecha Ingreso' },
+                { value: 'fta', text: 'Facturación' },
+                { value: 'paisesOperados', text: 'Paises Operados' }
+            ],
+            'AREA': [
+                { value: 'id', text: 'ID' },
+                { value: 'nombreArea', text: 'Nombre' },
+                { value: 'descripcion', text: 'Descripcion' }
+            ],
+            'PAIS': [
+                { value: 'id', text: 'ID' },
+                { value: 'nombrePais', text: 'Nombre' },
+                { value: 'capital', text: 'Capital' },
+                { value: 'poblacion', text: 'Poblacion' },
+                { value: 'pbi', text: 'PBI' }
+            ],
+            'CONTRATOS': [
+                { value: 'id', text: 'ID' },
+                { value: 'asesorACargo', text: 'Asesor a Cargo' },
+                { value: 'empresaCliente', text: 'Empresa Cliente' },
+                { value: 'fechaCelebracion', text: 'Fecha Celebracion' },
+                { value: 'areasAsesoradas', text: 'Areas Asesoradas' }
+            ]
+        };
+
         document.addEventListener('DOMContentLoaded', function () {
-            const entitySelect = new Choices('#entidad', { removeItemButton: false });
-            const attributesSelect = new Choices('#atributos', { removeItemButton: true, placeholderValue: 'Atributos' });
+            const entidadSelect = new Choices('#entidad', { removeItemButton: false });
+            const selectorAtributos = new Choices('#atributos', { removeItemButton: true });
+
+            entidadSelect.setChoiceByValue("USERS");
+            addToSelectorAtributos(mapaAtributos.USERS);
+
+            const selectorEntidad = document.getElementById("entidad");
+
+            selectorEntidad.onchange = function () {
+                selectorAtributos.clearChoices();
+
+                switch (this.value) {
+                    case "USERS": addToSelectorAtributos(mapaAtributos.USERS); break;
+                    case "ADMIN": addToSelectorAtributos(mapaAtributos.ADMIN); break;
+                    case "ASESOR": addToSelectorAtributos(mapaAtributos.ASESOR); break;
+                    case "VENDEDOR": addToSelectorAtributos(mapaAtributos.VENDEDOR); break;
+                    case "EMPRESA": addToSelectorAtributos(mapaAtributos.EMPRESA); break;
+                    case "AREA": addToSelectorAtributos(mapaAtributos.AREA); break;
+                    case "PAIS": addToSelectorAtributos(mapaAtributos.PAIS); break;
+                    case "CONTRATOS": addToSelectorAtributos(mapaAtributos.CONTRATOS); break;
+                }
+            }
+
+            function addToSelectorAtributos(arr) {
+                const options = arr.map(element => {
+                    return { value: element.value, label: element.text };
+                });
+
+                selectorAtributos.setChoices(options, 'value', 'label', true);
+            }
         });
+
     </script>
 </head>
 
@@ -21,71 +115,43 @@
     <div class="navbar" th:insert="~{fragments/navbar :: navbar('busqueda')}"></div>
 
     <div class="container">
-            <form class="filters" th:action="@{/busqueda}" method="get">
-                <h3>Filtros</h3>
-                <div class="form-group">
-                    <label for="entidad">Entidad a buscar:</label>
-                    <input type="hidden" th:if="${entidad == ''}" name="entidad" value="USERS">
-                    <select id="entidad" name="entidad">
-                        <option value="USERS" selected>Todos los usuarios</option>
-                        <optgroup label="Usuarios por tipo">
-                            <option value="ADMIN">Admin</option>
-                            <option value="ASESOR">Asesor</option>
-                            <option value="VENDEDOR">Vendedor</option>
-                        </optgroup>
-                        <option value="EMPRESA">Empresa</option>
-                        <option value="AREA">Area</option>
-                        <option value="PAIS">Pais</option>
-                        <option value="CONTRATOS">Contrato</option>
-                    </select>
-                </div>
+        <form class="filters" th:action="@{/busqueda}" method="get">
+            <h3>Filtros</h3>
+            <div class="form-group">
+                <label for="entidad">Entidad a buscar:</label>
+                <select id="entidad" name="entidad">
+                    <option value="USERS" selected>Todos los usuarios</option>
+                    <optgroup label="Usuarios por tipo">
+                        <option value="ADMIN">Admin</option>
+                        <option value="ASESOR">Asesor</option>
+                        <option value="VENDEDOR">Vendedor</option>
+                    </optgroup>
+                    <option value="EMPRESA">Empresa</option>
+                    <option value="AREA">Area</option>
+                    <option value="PAIS">Pais</option>
+                    <option value="CONTRATOS">Contrato</option>
+                </select>
+            </div>
 
-                <div class="form-group">
-                    <label for="atributos">Atributos:</label>
-                    <select id="atributos" name="atributos[]" multiple>
-                        <!-- Common attributes for all entities -->
-                        <option value="id">ID</option>
+            <div class="form-group">
+                <label for="atributos">Atributos:</label>
+                <select id="atributos" name="atributos[]" multiple required>
 
-                        <!-- Conditionally render attributes based on the selected entity -->
-                        <option th:if="${entidad == 'USERS' || entidad == 'ADMIN'}" value="userName">Nombre</option>
-                        <option th:if="${entidad == 'USERS' || entidad == 'ADMIN' || entidad == 'EMPRESA'}"
-                            value="fechaIngreso">Fecha Ingreso</option>
-                        <option th:if="${entidad == 'USERS' || entidad == 'ADMIN'}" value="rol">Rol</option>
+                </select>
+            </div>
 
-                        <!-- Vendedor-specific attributes -->
-                        <option th:if="${entidad == 'VENDEDOR'}" value="manager">Manager</option>
-                        <option th:if="${entidad == 'VENDEDOR'}" value="ingresos">Ingresos</option>
-                        <option th:if="${entidad == 'VENDEDOR'}" value="empresa">Empresa</option>
+            <div class="form-group">
+                <label for="id-search">Buscar por ID:</label>
+                <input type="number" id="id-search" name="id" placeholder="Ingrese un ID">
+            </div>
 
-                        <!-- Asesor-specific attributes -->
-                        <option th:if="${entidad == 'ASESOR'}" value="titulacion">Titulación</option>
-                        <option th:if="${entidad == 'ASESOR'}" value="areasOperadas">Áreas Operadas</option>
+            <div class="form-group">
+                <label for="name-search">Buscar por Nombre:</label>
+                <input type="text" id="name-search" name="nombre" placeholder="Ingrese un nombre">
+            </div>
 
-                        <!-- Empresa-specific attributes -->
-                        <option th:if="${entidad == 'EMPRESA'}" value="nombreEmpresa">Nombre de la Empresa</option>
-                        <option th:if="${entidad == 'EMPRESA'}" value="sede">Sede</option>
-                        <option th:if="${entidad == 'EMPRESA'}" value="fta">Facturación</option>
-                        <option th:if="${entidad == 'EMPRESA'}" value="paisesOperados">Países Operados</option>
-                        <option th:if="${entidad == 'EMPRESA'}" value="areasOperados">Áreas Operadas</option>
-                        <option th:if="${entidad == 'EMPRESA'}" value="subContratados">Vendedores Contratados
-                        </option>
-                        <option th:if="${entidad == 'EMPRESA'}" value="asesoresContratados">Asesores Contratados
-                        </option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="id-search">Buscar por ID:</label>
-                    <input type="number" id="id-search" name="id" placeholder="Ingrese un ID">
-                </div>
-
-                <div class="form-group">
-                    <label for="name-search">Buscar por Nombre:</label>
-                    <input type="text" id="name-search" name="nombre" placeholder="Ingrese un nombre">
-                </div>
-
-                <button type="submit">Aplicar Filtros</button>
-            </form>
+            <button type="submit">Aplicar Filtros</button>
+        </form>
 
         <div class="results">
             <h3>Results</h3>
@@ -119,9 +185,10 @@
                         <td th:text="${usuario.id}">ID</td>
                         <td th:if="${atributos.contains('username')}" th:text="${usuario.username}">Nombre</td>
                         <td th:if="${atributos.contains('rol')}" th:text="${usuario.rol}">Rol</td>
-                        <td th:if="${atributos.contains('fechaIngreso')}" th:text="${#dates.format(usuario.fechaIngreso, 'dd/MM/yyyy')}">Fecha de Ingreso</td>
+                        <td th:if="${atributos.contains('fechaIngreso')}"
+                            th:text="${#dates.format(usuario.fechaIngreso, 'dd/MM/yyyy')}">Fecha de Ingreso</td>
                         <!-- Atributos de los ASESORES -->
-                        <td th:text="${atributos.contains('titulacion') and usuario.rol.name() == 'ASESOR'} ? ${usuario.titulacion} : '-'">Titulación</td>
+                        <td th:if="${atributos.contains('titulacion')}" th:text="${usuario.rol.name() == 'ASESOR'} ? ${usuario.titulacion} : '-'">Titulación</td>
                         <td th:if="${atributos.contains('areasOperadas') }">
                             <ul th:if="${usuario.rol.name() == 'ASESOR'}">
                                 <li th:each="area : ${usuario.areasOperadas}" th:text="${area.nombreArea}">Areas Operadas</li>
@@ -129,9 +196,9 @@
                             <ul th:unless="${usuario.rol.name() == 'ASESOR'}">-</ul>
                         </td>
                         <!-- Atributos de los VENDEDORES -->
-                        <td th:text="${atributos.contains('manager') and usuario.rol.name() == 'VENDEDOR'} ? ${usuario.managerID} : '-'">Manager</td>
-                        <td th:text="${atributos.contains('ingresos') and usuario.rol.name() == 'VENDEDOR'} ? ${usuario.ingresosTotales} : '0,00'">Ingresos</td>
-                        <td th:text="${atributos.contains('empresa') and usuario.rol.name() == 'VENDEDOR'} ? ${usuario.empresa.nombreEmpresa} : '-'">Empresa</td>
+                        <td th:if="${atributos.contains('manager')}" th:text="${usuario.rol.name() == 'VENDEDOR'} ? ${usuario.managerID} : '-'">Manager</td>
+                        <td th:if="${atributos.contains('ingresos')}" th:text="${usuario.rol.name() == 'VENDEDOR'} ? ${usuario.ingresosTotales} : '0,00'">Ingresos</td>
+                        <td th:if="${atributos.contains('empresa')}" th:text="${usuario.rol.name() == 'VENDEDOR'} ? ${usuario.empresa.nombreEmpresa} : '-'">Empresa</td>
                         <td th:if="${atributos.contains('subContratados')}">
                             <ul th:if="${usuario.rol.name() == 'VENDEDOR'}">
                                 <li th:each="vendedor : ${usuario.subContratados}" th:text="${vendedor.username}">Subcontratados</li>

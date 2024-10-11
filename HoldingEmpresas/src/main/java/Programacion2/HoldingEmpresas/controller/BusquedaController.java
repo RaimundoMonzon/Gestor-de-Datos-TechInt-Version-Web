@@ -15,7 +15,6 @@ import Programacion2.HoldingEmpresas.entities.Empresa;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import java.util.List;
-import java.util.ArrayList;
 
 @Controller
 @AllArgsConstructor
@@ -32,7 +31,6 @@ public class BusquedaController {
             @RequestParam(value = "entidad", required = false) String entidad,
             @RequestParam(value = "atributos", required = false) List<String> atributos,
             @RequestParam(value = "nombre", required = false) String nombre,
-            @RequestParam(value = "rol", required = false) String rol,
             @RequestParam(value = "id", required = false) Long id,
             Model model) {
         if (entidad != null) {
@@ -53,34 +51,17 @@ public class BusquedaController {
                     model.addAttribute("empresas", empresas);
                     break;
                 default:
-                    List<UserEntity> usuarios = userService.filterUsers(nombre, rol, id);
+                    List<UserEntity> usuarios = userService.filterUsers(nombre, atributos.contains("rol") && !entidad.equals("USERS") ? entidad : null, id);
                     model.addAttribute("usuarios", usuarios);
                     break;
             }
-            model.addAttribute("atributos", atributos);
-        } else {
-            List<UserEntity> usuarios = userService.filterUsers(nombre, rol, id);
-            atributos = new ArrayList<>();
-            atributos.add("id");
-            atributos.add("username");
-            atributos.add("fechaIngreso");
-            atributos.add("rol");
-            atributos.add("areasOperadas");
-            atributos.add("titulacion");
-            atributos.add("empresa");
-            atributos.add("manager");
-            atributos.add("subContratados");
-            atributos.add("ingresos");
-            entidad = "USERS";
-            model.addAttribute("atributos", atributos);
-            model.addAttribute("usuarios", usuarios);
-            model.addAttribute("entidad", entidad);
         }
-
+        
         // Se los dedvuevlo para que mantengan persistencia
         
+        model.addAttribute("atributos", atributos);
+        model.addAttribute("entidad", entidad);
         model.addAttribute("username", nombre);
-        model.addAttribute("rol", rol);
         model.addAttribute("id", id);
         return "busqueda";
     }
