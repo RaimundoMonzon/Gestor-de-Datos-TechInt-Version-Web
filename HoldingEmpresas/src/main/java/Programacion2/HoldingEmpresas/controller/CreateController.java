@@ -139,10 +139,8 @@ public class CreateController {
     public String empresaCreate(Model model) {
         List<Area> areas = areaService.getAll();
         List<Pais> paises = paisService.getAll();
-        List<? extends UserEntity> users = userService.getByRol(Rol.VENDEDOR);
         model.addAttribute("areas", areas);
         model.addAttribute("paises", paises);
-        model.addAttribute("users", users);
         return "create/empresa";
     }
 
@@ -152,7 +150,6 @@ public class CreateController {
             @RequestParam String sede,
             @RequestParam List<Pais> paisesOperados,
             @RequestParam List<Area> areasOperadas,
-            @RequestParam(required = false) List<Vendedor> vendedoresContratados,
             @RequestParam Date fechaIngreso,
             @RequestParam Float fta) {
         Empresa empresa = new Empresa();
@@ -160,7 +157,6 @@ public class CreateController {
         empresa.setSede(sede);
         empresa.setPaisesOperados(paisesOperados);
         empresa.setAreasOperadas(areasOperadas);
-        empresa.setVendedoresContratados(vendedoresContratados);
         empresa.setFechaIngreso(fechaIngreso);
         empresa.setFta(fta);
         empresaService.save(empresa);

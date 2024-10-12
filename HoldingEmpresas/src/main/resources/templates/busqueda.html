@@ -45,14 +45,18 @@
                 { value: 'ingresos', text: 'Ingresos' },
                 { value: 'empresa', text: 'Empresa' },
                 { value: 'manager', text: 'Manager' },
-                { value: 'vendedoresContratados', text: 'Vendedores Contratados' }
+                { value: 'subContratados', text: 'Vendedores Contratados' }
             ],
             'EMPRESA': [
                 { value: 'id', text: 'ID' },
                 { value: 'nombreEmpresa', text: 'Nombre' },
+                { value: 'sede', text: 'Sede' },
                 { value: 'fechaIngreso', text: 'Fecha Ingreso' },
                 { value: 'fta', text: 'Facturación' },
-                { value: 'paisesOperados', text: 'Paises Operados' }
+                { value: 'paisesOperados', text: 'Paises Operados' },
+                { value: 'areasOperadasEmp', text: 'Areas Operadas' },
+                { value: 'vendedoresContratados', text: 'Vendedores Contratados' },
+                { value: 'asesoresContratados', text: 'Asesores Contratados' }
             ],
             'AREA': [
                 { value: 'id', text: 'ID' },
@@ -78,9 +82,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             const entidadSelect = new Choices('#entidad', { removeItemButton: false });
             const selectorAtributos = new Choices('#atributos', { removeItemButton: true });
-
-            entidadSelect.setChoiceByValue("USERS");
-            addToSelectorAtributos(mapaAtributos.USERS);
 
             const selectorEntidad = document.getElementById("entidad");
 
@@ -120,7 +121,7 @@
             <div class="form-group">
                 <label for="entidad">Entidad a buscar:</label>
                 <select id="entidad" name="entidad">
-                    <option value="USERS" selected>Todos los usuarios</option>
+                    <option value="USERS">Todos los usuarios</option>
                     <optgroup label="Usuarios por tipo">
                         <option value="ADMIN">Admin</option>
                         <option value="ASESOR">Asesor</option>
@@ -135,9 +136,7 @@
 
             <div class="form-group">
                 <label for="atributos">Atributos:</label>
-                <select id="atributos" name="atributos[]" multiple required>
-
-                </select>
+                <select id="atributos" name="atributos[]" multiple required></select>
             </div>
 
             <div class="form-group">
@@ -159,10 +158,9 @@
                 <thead>
                     <tr th:if="${atributos != null}">
                         <!-- Atributos de todos los Usuarios -->
-                        <th>ID</th>
+                        <th th:if="${atributos.contains('id')}">ID</th>
                         <th th:if="${atributos.contains('username')}">Nombre</th>
                         <th th:if="${atributos.contains('rol')}">Rol</th>
-                        <th th:if="${atributos.contains('fechaIngreso')}">Fecha de Ingreso</th>
                         <!-- Atributos de los ASESORES -->
                         <th th:if="${atributos.contains('titulacion')}">Titulacion</th>
                         <th th:if="${atributos.contains('areasOperadas')}">Areas Operadas</th>
@@ -177,12 +175,20 @@
                         <th th:if="${atributos.contains('fta')}">Facturacion Anual</th>
                         <th th:if="${atributos.contains('paisesOperados')}">Paises Operados</th>
                         <th th:if="${atributos.contains('areasOperadasEmp')}">Areas Operadas Empresas</th>
+                        <th th:if="${atributos.contains('vendedoresContratados')}">Vendedores Contratados</th>
+                        <th th:if="${atributos.contains('areasOperadasEmp')}">Asesores Contratados</th>
+                        <!-- Atributos de todos los Usuarios y EMPRESA-->
+                        <th th:if="${atributos.contains('fechaIngreso')}">Fecha de Ingreso</th>
+                        <!-- Atributos de las AREAS -->
+                        <th th:if="${atributos.contains('nombreArea')}">Nombre</th>
+                        <th th:if="${atributos.contains('descripcion')}">Descripcion</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <tr th:if="${entidad == 'USERS' || entidad == 'ADMIN'}" th:each="usuario : ${usuarios}">
                         <!-- Atributos de todos los Usuarios -->
-                        <td th:text="${usuario.id}">ID</td>
+                        <td th:if="${atributos.contains('id')}" th:text="${usuario.id}">ID</td>
                         <td th:if="${atributos.contains('username')}" th:text="${usuario.username}">Nombre</td>
                         <td th:if="${atributos.contains('rol')}" th:text="${usuario.rol}">Rol</td>
                         <td th:if="${atributos.contains('fechaIngreso')}"
@@ -205,6 +211,35 @@
                             </ul>
                             <ul th:unless="${usuario.rol.name() == 'VENDEDOR'}">-</ul>
                         </td>
+                    </tr>
+                    <tr th:if="${entidad == 'EMPRESA'}" th:each="empresa : ${empresas}">
+                        <!-- Atributos de las EMPRESAS -->
+                        <td th:if="${atributos.contains('id')}" th:text="${empresa.id}">ID</td>
+                        <td th:if="${atributos.contains('nombreEmpresa')}" th:text="${empresa.nombreEmpresa}">Nombre</td>
+                        <td th:if="${atributos.contains('sede')}" th:text="${empresa.sede}">Sede</td>
+                        <td th:if="${atributos.contains('fta')}" th:text="${empresa.fta}">Facturacion</td>
+                        <td th:if="${atributos.contains('paisesOperados')}">
+                            <li th:each="pais : ${empresa.paisesOperados}" th:text="${pais.nombrePais}">Paises Operados</li>
+                        </td>
+                        <td th:if="${atributos.contains('areasOperadasEmp')}">
+                            <li th:each="area : ${empresa.areasOperadas}" th:text="${area.nombreArea}">Areas Operadas</li>
+                        </td>
+                        <td th:if="${atributos.contains('vendedoresContratados')}">
+                            <li th:each="vendedor : ${empresa.vendedoresContratados}" th:text="${vendedor.username}">Vendedores Contratados</li>
+                        </td>
+                        <td th:if="${atributos.contains('asesoresContratados')}">
+                            <li th:each="asesor : ${empresa.contratosAsesores}" th:text="${asesor.username}">Asesores Contratados</li>
+                        </td>
+                        <td th:if="${atributos.contains('fechaIngreso')}" th:text="${empresa.fechaIngreso}">Fecha Ingreso</td>
+                    </tr>
+                    <tr th:if="${entidad == 'AREA'}" th:each="area : ${areas}">
+                        <td th:text="${area.id}">ID</td>
+                        <td th:text="${area.nombreArea}">Nombre</td>
+                        <td th:text="${area.descripcion}">Descripcion</td>
+                    </tr>
+                    <tr th:if="${entidad == 'PAIS'}" th:each="pais : ${paises}">
+                        <td th:text="${pais.id}">ID</td>
+                        <td th:text="${pais.nombrePais}">Nombre</td>
                     </tr>
                 </tbody>
             </table>
