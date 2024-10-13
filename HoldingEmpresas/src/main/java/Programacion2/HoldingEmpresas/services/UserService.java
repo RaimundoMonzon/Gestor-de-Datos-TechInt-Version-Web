@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpSession;
 import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
-import Programacion2.HoldingEmpresas.entities.Vendedor;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -51,6 +50,10 @@ public class UserService {
     }
 
     public List<UserEntity> filterUsers(String username, String rol, Long id) {
+        if (id != null && rol != null && !rol.isEmpty()) {
+            return repositorio.findByIdAndRol(id, Rol.valueOf(rol));
+        }
+        
         if (id != null) {
             return repositorio.findByIdOrUsernameContainingIgnoreCase(id, null);
         }

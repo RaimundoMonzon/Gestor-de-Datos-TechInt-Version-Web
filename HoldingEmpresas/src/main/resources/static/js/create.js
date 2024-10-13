@@ -1,5 +1,3 @@
-// Wait for the DOM to load
-
 document.addEventListener("DOMContentLoaded", function () {
     const roleSelect = document.getElementById("rol");
     const vendedorFields = document.getElementById("vendedor-fields");

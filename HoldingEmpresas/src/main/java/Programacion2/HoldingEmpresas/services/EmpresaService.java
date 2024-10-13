@@ -17,6 +17,18 @@ public class EmpresaService {
         return empresaReposiroty.findAll();
     }
 
+    public List<Empresa> filterEmpresas(String nombre, Long id) {
+        if (id != null) {
+            return empresaReposiroty.findByIdOrNombreEmpresaContainingIgnoreCase(id, null);
+        }
+
+        if (nombre != null && !nombre.isEmpty()) {
+            return empresaReposiroty.findByNombreEmpresaContainingIgnoreCase(nombre);
+        }
+
+        return empresaReposiroty.findAll();
+    }
+
     public void save(Empresa empresa) {
         empresaReposiroty.save(empresa);
     }

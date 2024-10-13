@@ -11,7 +11,6 @@ import Programacion2.HoldingEmpresas.entities.Asesor;
 import Programacion2.HoldingEmpresas.entities.Empresa;
 import Programacion2.HoldingEmpresas.entities.Pais;
 import Programacion2.HoldingEmpresas.entities.Rol;
-import Programacion2.HoldingEmpresas.entities.UserEntity;
 import Programacion2.HoldingEmpresas.entities.Vendedor;
 import Programacion2.HoldingEmpresas.services.AreaService;
 import Programacion2.HoldingEmpresas.services.EmpresaService;
