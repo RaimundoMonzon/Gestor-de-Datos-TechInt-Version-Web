@@ -8,16 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script type="text/javascript" th:src="@{/js/create.js}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const areas = document.getElementById('areasOperadas');
-
-            const choicesAreas = new Choices(areas, {
-                removeItemButton: true,
-                placeholderValue: 'Seleccione una o más Áreas'
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -57,7 +47,8 @@
                 <select th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" id="rol" name="rol" disabled>
                     <option value="VENDEDOR" selected>Vendedor</option>
                 </select>
-                <input type="hidden" th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" name="rol" value="VENDEDOR">
+                <input type="hidden" th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" name="rol"
+                    value="VENDEDOR">
             </div>
 
             <!-- CAMPOS ADICIONALES DEl VENDEDOR -->
@@ -71,10 +62,12 @@
                         <option th:each="empresa : ${empresas}" th:value="${empresa.id}"
                             th:text="${empresa.nombreEmpresa}"></option>
                     </select>
-                    <select th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" id="empresa" name="empresa" disabled>
+                    <select th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" id="empresa" name="empresa"
+                        disabled>
                         <option th:value="${vendedor.empresa.id}" th:text="${vendedor.empresa.nombreEmpresa}"></option>
                     </select>
-                    <input type="hidden" th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" name="empresa" th:value="${vendedor.empresa.id}">
+                    <input type="hidden" th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" name="empresa"
+                        th:value="${vendedor.empresa.id}">
                 </div>
             </div>
 
@@ -99,6 +92,9 @@
                 <button type="submit">Crear Usuario</button>
             </div>
         </form>
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
     </section>
 </body>
 

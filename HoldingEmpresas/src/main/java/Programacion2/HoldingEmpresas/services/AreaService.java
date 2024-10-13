@@ -25,7 +25,7 @@ public class AreaService {
     public List<Area> filterAreas(Long id) {
         if(id != null) {
             List<Area> areas = new ArrayList<Area>();
-            areas.add(areaRepository.findById(id).orElse(null));
+            areaRepository.findById(id).ifPresent(areas::add);
             return areas;
         }
         return areaRepository.findAll();

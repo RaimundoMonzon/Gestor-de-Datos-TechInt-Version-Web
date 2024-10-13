@@ -1,4 +1,14 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const areas = document.getElementById('areasOperadas');
+
+    const choicesAreas = new Choices(areas, {
+        removeItemButton: true,
+        placeholderValue: 'Seleccione una o más Áreas'
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
+    const usuarioSelect = this.documentElement.getElementById("usuarios");
     const roleSelect = document.getElementById("rol");
     const vendedorFields = document.getElementById("vendedor-fields");
     const asesorFields = document.getElementById("asesor-fields");
@@ -6,15 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const empresaField = document.getElementById("empresa")
     const areasField = document.getElementById("areasOperadas")
     const titulacionField = document.getElementById("titulacion")
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const areas = document.getElementById('areasOperadas');
-
-        const choicesAreas = new Choices(areas, {
-            removeItemButton: true,
-            placeholderValue: 'Seleccione una o más Áreas'
-        });
-    });
 
     function handleRoleChange() {
         const selectedRole = roleSelect.value;

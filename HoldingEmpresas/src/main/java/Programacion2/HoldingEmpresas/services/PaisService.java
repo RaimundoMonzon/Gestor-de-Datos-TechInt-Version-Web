@@ -25,7 +25,7 @@ public class PaisService {
     public List<Pais> filterPais(Long id) {
         if(id != null) {
             List<Pais> paises = new ArrayList<Pais>();
-            paises.add(paisRepository.findById(id).orElse(null));
+            paisRepository.findById(id).ifPresent(paises::add);
             return paises;
         }
         return paisRepository.findAll();

@@ -24,7 +24,7 @@ public class ContratoService {
     public List<Contrato> filterContratos(Long id) {
         if(id != null) {
             List<Contrato> contratos = new ArrayList<Contrato>();
-            contratos.add(contratoRepository.findById(id).orElse(null));
+            contratoRepository.findById(id).ifPresent(contratos::add);
             return contratos;
         }
         return contratoRepository.findAll();

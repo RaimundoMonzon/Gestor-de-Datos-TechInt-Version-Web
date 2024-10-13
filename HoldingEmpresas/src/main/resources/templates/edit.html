@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar | TechInt Multinacional</title>
+    <link rel="stylesheet" type="text/css" href="/css/create.css">
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+</head>
+
+<body>
+    <div th:insert="~{fragments/navbar :: navbar('edit')}"></div>
+
+    <main class="page-container">
+        <h1>Editar Entidades</h1>
+        <div class="page-options">
+            <a th:href="@{/edit/area}" class="page-card">Editar Area</a>
+            <a th:href="@{/edit/empresa}" class="page-card">Editar Empresa</a>
+            <a th:href="@{/edit/pais}" class="page-card">Editar Pais</a>
+            <a th:href="@{/edit/user}" class="page-card">Editar Usuario</a>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -18,7 +18,8 @@
         </form>
 
         <div th:if="${param.error}" class="alert alert-danger">
-        <p>Error: Usuario o contraseña inválidos.</p>
+            <p th:text="${error}"></p>
+        </div>
     </div>
     </div>
 

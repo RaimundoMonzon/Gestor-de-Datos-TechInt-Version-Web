@@ -20,30 +20,30 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserService {
 
-    private final UserRepository repositorio;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final HttpSession session;
 
     public List<UserEntity> getAll() {
-        return repositorio.findAll();
+        return userRepository.findAll();
     }
 
     public UserEntity getById(Long id) {
-        return repositorio.findById(id).orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     public Optional<UserEntity> getByName(String username) {
-        return repositorio.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     public List<? extends UserEntity> getByRol(Rol rol) {
         switch (rol) {
             case ADMIN:
-                return repositorio.findByRol(rol);
+                return userRepository.findByRol(rol);
             case ASESOR:
-                return repositorio.findByRol(rol);
+                return userRepository.findByRol(rol);
             case VENDEDOR:
-                return repositorio.findByRol(rol);
+                return userRepository.findByRol(rol);
             default:
                 throw new IllegalArgumentException("Rol no válido: " + rol);
         }
@@ -51,30 +51,30 @@ public class UserService {
 
     public List<UserEntity> filterUsers(String username, String rol, Long id) {
         if (id != null && rol != null && !rol.isEmpty()) {
-            return repositorio.findByIdAndRol(id, Rol.valueOf(rol));
+            return userRepository.findByIdAndRol(id, Rol.valueOf(rol));
         }
         
         if (id != null) {
-            return repositorio.findByIdOrUsernameContainingIgnoreCase(id, null);
+            return userRepository.findByIdOrUsernameContainingIgnoreCase(id, null);
         }
 
         if (username != null && !username.isEmpty() && rol != null && !rol.isEmpty()) {
-            return repositorio.findByUsernameContainingIgnoreCaseAndRol(username, Rol.valueOf(rol));
+            return userRepository.findByUsernameContainingIgnoreCaseAndRol(username, Rol.valueOf(rol));
         }
 
         if (rol != null && !rol.isEmpty()) {
-            return repositorio.findByRol(Rol.valueOf(rol));
+            return userRepository.findByRol(Rol.valueOf(rol));
         }
 
         if (username != null && !username.isEmpty()) {
-            return repositorio.findByUsernameContainingIgnoreCase(username);
+            return userRepository.findByUsernameContainingIgnoreCase(username);
         }
 
-        return repositorio.findAll();
+        return userRepository.findAll();
     }
 
     public long count() {
-        return repositorio.count();
+        return userRepository.count();
     }
 
     public Boolean isAnyUserRegistered() {
@@ -87,11 +87,11 @@ public class UserService {
         usuario.setPassword(passwordEncoder.encode(password));
         usuario.setRol(Rol.ADMIN);
         usuario.setFechaIngreso(Date.valueOf(LocalDate.now()));
-        repositorio.save(usuario);
+        userRepository.save(usuario);
     }
 
     public void save(UserEntity user) {
-        repositorio.save(user);
+        userRepository.save(user);
     }
 
     public UserEntity getLoggedUser() {
@@ -110,5 +110,14 @@ public class UserService {
     public void logout() {
         SecurityContextHolder.clearContext();
         session.invalidate();
+    }
+
+    public UserEntity updatePassword(UserEntity user, String password) {
+        if (!password.isEmpty()){
+            user.setPassword(passwordEncoder.encode(password));
+        } else{
+            user.setPassword(getById(user.getId()).getPassword()); // Si no se cambia la contraseña, se mantiene la anterior
+        }
+        return user;
     }
 }
