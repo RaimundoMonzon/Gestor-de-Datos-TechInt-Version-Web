@@ -75,9 +75,10 @@ public class EditController {
             @RequestParam(required = false) List<Area> areasOperadas,
             @RequestParam(required = false) String titulacion,
             Model model) {
+
         if (!password.equals(passwordConfirmation)) {
             model.addAttribute("Error: ", "La contraseña no coincide");
-            return "create/user";
+            return "edit/user";
         }
 
         switch (rol) {
@@ -102,19 +103,12 @@ public class EditController {
                 userService.save(asesor);
                 break;
             case VENDEDOR:
-                Vendedor vendedor = new Vendedor();
-                vendedor.setId(id);
+                Vendedor vendedor = (Vendedor) userService.getById(id);
                 vendedor.setUsername(username);
                 vendedor = (Vendedor) userService.updatePassword(vendedor, password);
                 vendedor.setFechaIngreso(fechaIngreso);
-                vendedor.setRol(rol);
                 vendedor.setEmpresa(empresa);
                 userService.save(vendedor);
-                if (userService.getLoggedUserRol() == "VENDEDOR") {
-                    Vendedor manager = (Vendedor) userService.getLoggedUser();
-                    manager.getSubContratados().add(vendedor);
-                    userService.save(manager);
-                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid Rol");

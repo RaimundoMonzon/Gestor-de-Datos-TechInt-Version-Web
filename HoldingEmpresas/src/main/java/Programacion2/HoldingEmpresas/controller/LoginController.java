@@ -42,12 +42,12 @@ public class LoginController {
     @PostMapping("/register")
     public String registerUser(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("passwordConfirmation") String passwordConfirmation, Model model) {
             if(!password.equals(passwordConfirmation)) {
-                model.addAttribute("Error: ", "La contraseña no coincide");
+                model.addAttribute("error: ", "La contraseña no coincide");
                 return "register";
             }
 
             if(userRepository.findByUsername(username).isPresent()) {
-                model.addAttribute("Error: ", "El nombre de usuario ya esta tomado.");
+                model.addAttribute("error: ", "El nombre de usuario ya esta tomado.");
                 return "register";
             }
 

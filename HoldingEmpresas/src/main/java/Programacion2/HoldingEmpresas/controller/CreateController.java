@@ -99,6 +99,7 @@ public class CreateController {
                 vendedor.setFechaIngreso(fechaIngreso);
                 vendedor.setRol(rol);
                 vendedor.setEmpresa(empresa);
+                vendedor.setIngresosTotales( 0.00);
                 userService.save(vendedor);
                 if (userService.getLoggedUserRol() == "VENDEDOR") {
                     Vendedor manager = (Vendedor) userService.getLoggedUser();

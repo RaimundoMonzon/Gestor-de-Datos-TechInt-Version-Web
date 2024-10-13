@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label for="rol">Rol</label>
                 <select th:if="${#authentication.principal.rol.name() == 'ADMIN'  && usuario != null}" id="rol"
-                    name="rol">
+                    name="rol" disabled>
                     <option th:selected="${usuario.rol.name() == 'ADMIN'}" value="ADMIN">Administrador</option>
                     <option th:selected="${usuario.rol.name() == 'VENDEDOR'}" value="VENDEDOR">Vendedor</option>
                     <option th:selected="${usuario.rol.name() == 'ASESOR'}" value="ASESOR">Asesor</option>
@@ -60,6 +60,7 @@
                 <select th:if="${#authentication.principal.rol.name() == 'VENDEDOR' }" id="rol" name="rol" disabled>
                     <option th:selected="${usuario.rol.name() == 'VENDEDOR'}" value="VENDEDOR">Vendedor</option>
                 </select>
+                <input type="hidden" name="rol" th:value="${usuario.rol.name()}">
             </div>
 
             <!-- CAMPOS ADICIONALES DEl VENDEDOR -->

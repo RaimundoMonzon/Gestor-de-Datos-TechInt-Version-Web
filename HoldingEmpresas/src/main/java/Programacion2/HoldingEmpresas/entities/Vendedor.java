@@ -18,13 +18,13 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class Vendedor extends UserEntity{
     @Column()
-    private Long ingresosTotales;
+    private Double ingresosTotales;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id")
     @ToString.Exclude private List<Vendedor> subContratados;
 
-    @Column(name = "manager_id", insertable = false, updatable = false)
+    @Column(name = "manager_id", insertable = false)
     private Long managerID;
     
     @ManyToOne(fetch = FetchType.EAGER)
