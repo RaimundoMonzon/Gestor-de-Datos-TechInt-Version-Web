@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <title>Crear | TechInt Multinacional</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
+
+</head>
+
+<body>
+    <div th:insert="~{fragments/navbar :: navbar(edit)}"></div>
+    <h2>Editar Pais</h2>
+    <section class="page-card">
+        <h3>Informacion del Pais</h3>
+
+        <form th:action="@{/edit/pais}" method="get">
+            <div class="form-group">
+                <label for="usuarios"> Seleccione un Pais</label>
+                <select name="paisID" id="paises" onchange="this.form.submit()">
+                    <option value="" placeholder>Paises</option>
+                    <option th:each="pais : ${paises}" th:value="${pais.id}" th:text="${pais.nombrePais}">
+                    </option>
+                </select>
+            </div>
+        </form>
+
+        <form th:action="@{/edit/pais}" method="post" th:if="${pais != null}" th:object="${pais}">
+            <input type="hidden" th:field="*{id}" required>
+            <div class="form-group">
+                <label for="nombre">Nombre del Pais</label>
+                <input type="text" id="nombre" name="nombre" th:field="*{nombrePais}" required>
+            </div>
+            <div class="form-group">
+                <label for="capital">Capital del Pais</label>
+                <input type="text" id="capital" name="capital" th:field="*{capital}" required>
+            </div>
+            <div class="form-group">
+                <label for="poblacion">Poblacion del Pais</label>
+                <input type="number" id="poblacion" name="poblacion" th:field="*{poblacion}" min="5000" required>
+            </div>
+            <div class="form-group">
+                <label for="pbi">PBI del Pais (Millones de USD)</label>
+                <input type="number" id="pbi" name="pbi" th:field="*{pbi}" min="50" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Guardar Pais</button>
+            </div>
+        </form>
+
+    </section>
+</body>

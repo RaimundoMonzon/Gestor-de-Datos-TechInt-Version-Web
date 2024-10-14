@@ -3,10 +3,10 @@ package Programacion2.HoldingEmpresas.controller;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,10 +15,10 @@ import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Area;
 import Programacion2.HoldingEmpresas.entities.Asesor;
 import Programacion2.HoldingEmpresas.entities.Empresa;
+import Programacion2.HoldingEmpresas.entities.Pais;
 import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
 import Programacion2.HoldingEmpresas.entities.Vendedor;
-import Programacion2.HoldingEmpresas.repositories.UserRepository;
 import Programacion2.HoldingEmpresas.services.AreaService;
 import Programacion2.HoldingEmpresas.services.EmpresaService;
 import Programacion2.HoldingEmpresas.services.PaisService;
@@ -33,7 +33,7 @@ public class EditController {
     private final EmpresaService empresaService;
     private final AreaService areaService;
     private final UserService userService;
-    private final UserRepository userRepository;
+    private final PaisService paisService;
 
     @GetMapping({ "/", "" })
     public String homeEdit(Model model) {
@@ -42,22 +42,20 @@ public class EditController {
 
     @GetMapping("/user")
     public String editUserForm(@RequestParam(required = false) Long usuarioID, Model model) {
-        List<Empresa> empresas = empresaService.getAll();
-        List<Area> areas = areaService.getAll();
-        List<UserEntity> usuarios = userService.getAll();
 
-        model.addAttribute("empresas", empresas);
-        model.addAttribute("areas", areas);
+        List<UserEntity> usuarios = userService.getAll();
         model.addAttribute("usuarios", usuarios);
 
         if (usuarioID != null) {
+            List<Empresa> empresas = empresaService.getAll();
+            List<Area> areas = areaService.getAll();
+            model.addAttribute("empresas", empresas);
+            model.addAttribute("areas", areas);
             UserEntity selectedUser = userService.getById(usuarioID);
             model.addAttribute("usuario", selectedUser); // Add the selected user
-        }
-
-        // If the logged-in user is a VENDEDOR, add them to the model
-        if ("VENDEDOR".equals(userService.getLoggedUserRol())) {
-            model.addAttribute("vendedor", userService.getLoggedUser());
+            if ("VENDEDOR".equals(userService.getLoggedUserRol())) {
+                model.addAttribute("vendedor", userService.getLoggedUser());
+            }
         }
 
         return "edit/user";
@@ -83,8 +81,7 @@ public class EditController {
 
         switch (rol) {
             case ADMIN:
-                Administrador admin = new Administrador();
-                admin.setId(id);
+                Administrador admin = (Administrador) userService.getById(id);
                 admin.setUsername(username);
                 admin = (Administrador) userService.updatePassword(admin, password);
                 admin.setFechaIngreso(fechaIngreso);
@@ -92,8 +89,7 @@ public class EditController {
                 userService.save(admin);
                 break;
             case ASESOR:
-                Asesor asesor = new Asesor();
-                asesor.setId(id);
+                Asesor asesor = (Asesor) userService.getById(id);
                 asesor.setUsername(username);
                 asesor = (Asesor) userService.updatePassword(asesor, password);
                 asesor.setFechaIngreso(fechaIngreso);
@@ -113,7 +109,65 @@ public class EditController {
             default:
                 throw new IllegalArgumentException("Invalid Rol");
         }
-        return "redirect:/home";
+        return "edit";
+    }
+
+    @GetMapping("/pais")
+    public String editPaisForm(@RequestParam(required = false) Long paisID, Model model) {
+        List<Pais> paises = paisService.getAll();
+        model.addAttribute("paises", paises);
+
+        if (paisID != null) {
+            model.addAttribute("pais", paisService.getById(paisID));
+        }
+
+        return "edit/pais";
+    }
+
+    @PostMapping("/pais")
+    public String editPais(@ModelAttribute Pais pais) {
+        paisService.save(pais);
+        return "edit";
+    }
+
+    @GetMapping("/area")
+    public String editAreasForm(@RequestParam(required = false) Long areaID, Model model) {
+        List<Area> areas = areaService.getAll();
+        model.addAttribute("areas", areas);
+
+        if (areaID != null) {
+            model.addAttribute("area", areaService.getById(areaID));
+        }
+
+        return "edit/area";
+    }
+
+    @PostMapping("/area")
+    public String editArea(@ModelAttribute Area area) {
+        areaService.save(area);
+        return "edit";
+    }
+
+    @GetMapping("/empresa")
+    public String editEmpresaForm(@RequestParam(required = false) Long empresaID, Model model) {
+        List<Empresa> empresas = empresaService.getAll();
+        model.addAttribute("empresas", empresas);
+
+        if (empresaID != null) {
+            List<Area> areas = areaService.getAll();
+            model.addAttribute("areas", areas);
+            List<Pais> paises = paisService.getAll();
+            model.addAttribute("paises", paises);
+            model.addAttribute("empresa", empresaService.getById(empresaID));
+        }
+
+        return "edit/empresa";
+    }
+
+    @PostMapping("/empresa")
+    public String editEmpresa(@ModelAttribute Empresa empresa) {
+        empresaService.save(empresa);
+        return "edit";
     }
 
 }

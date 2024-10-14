@@ -36,7 +36,7 @@ public class Empresa {
     @Column(unique = true, nullable = false)
     private String nombreEmpresa;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String sede;
 
     @Column(nullable = false)

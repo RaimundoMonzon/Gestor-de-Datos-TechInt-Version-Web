@@ -29,6 +29,10 @@ public class EmpresaService {
         return empresaReposiroty.findAll();
     }
 
+    public Empresa getById(Long id) {
+        return empresaReposiroty.findById(id).orElse(null);
+    }
+
     public void save(Empresa empresa) {
         empresaReposiroty.save(empresa);
     }

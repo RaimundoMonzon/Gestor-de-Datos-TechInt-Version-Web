@@ -110,7 +110,7 @@ public class CreateController {
             default:
                 throw new IllegalArgumentException("Invalid Rol");
         }
-        return "redirect:/home";
+        return "create";
     }
 
     @GetMapping("/pais")
@@ -130,7 +130,7 @@ public class CreateController {
         pais.setPoblacion(poblacion);
         pais.setPbi(pbi);
         paisService.save(pais);
-        return "redirect:/home";
+        return "create";
     }
 
     @GetMapping("/area")
@@ -146,7 +146,7 @@ public class CreateController {
         area.setNombreArea(nombre);
         area.setDescripcion(descripcion);
         areaService.save(area);
-        return "redirect:/home";
+        return "create";
     }
 
     @GetMapping("/empresa")
@@ -174,7 +174,7 @@ public class CreateController {
         empresa.setFechaIngreso(fechaIngreso);
         empresa.setFta(fta);
         empresaService.save(empresa);
-        return "redirect:/home";
+        return "create";
     }
 
 }

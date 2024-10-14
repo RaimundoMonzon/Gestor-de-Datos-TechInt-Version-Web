@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <title>Editar | TechInt Multinacional</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sedes = document.getElementById('sede');
+            const paises = document.getElementById('paisesOperados');
+            const areas = document.getElementById('areasOperadas');
+
+            const choicesSedes = new Choices(sedes, {
+                placeholderValue: 'Seleccione una Sede',
+                removeItemButton: true,
+            });
+
+            const choicesPaises = new Choices(paises, {
+                removeItemButton: true,
+                placeholderValue: 'Seleccione uno o más Países',
+                noChoicesText: false
+            });
+
+            const choicesAreas = new Choices(areas, {
+                removeItemButton: true,
+                placeholderValue: 'Seleccione una o más Áreas'
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <div th:insert="~{fragments/navbar :: navbar(edit)}"></div>
+    <h2>Editar Empresa</h2>
+    <section class="page-card">
+        <h3>Informacion de la Empresa</h3>
+
+        <form th:action="@{/edit/empresa}" method="get">
+            <div class="form-group">
+                <label for="usuarios"> Seleccione una Empresa</label>
+                <select name="empresaID" id="empresas" onchange="this.form.submit()">
+                    <option value="" placeholder>Empresas</option>
+                    <option th:each="empresa : ${empresas}" th:value="${empresa.id}" th:text="${empresa.nombreEmpresa}">
+                    </option>
+                </select>
+            </div>
+        </form>
+
+        <form th:action="@{/edit/empresa}" method="post" th:if="${empresa != null}" th:object="${empresa}">
+            <input type="hidden" th:field="*{id}" required>
+            <div class="form-group">
+                <label for="nombre">Nombre de la Empresa</label>
+                <input type="text" id="nombre" name="nombre" th:field="*{nombreEmpresa}" required>
+            </div>
+
+            <div id="empresa-fields">
+                <div class="form-group">
+                    <label for="sede">Sede de la Empresa</label>
+                    <select th:field="*{sede}" required>
+                        <!-- Iterate over the empresas list and create an option for each -->
+                        <option th:each="pais : ${paises}" th:value="${pais.capital}" th:text="${pais.capital}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="paisesOperados">Paises Operados</label>
+                    <select th:field="*{paisesOperados}" multiple required>
+                        <!-- Iterate over the empresas list and create an option for each -->
+                        <option th:each="pais : ${paises}" th:value="${pais.id}" th:text="${pais.nombrePais}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="areasOperadas">Areas Operadas</label>
+                    <select th:field="*{areasOperadas}" multiple required>
+                        <!-- Iterate over the areas list and create an option for each -->
+                        <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaIngreso">Fecha de Ingreso</label>
+                <input type="date" id="fechaIngreso" name="fechaIngreso" th:field="*{fechaIngreso}" required>
+            </div>
+            <div class="form-group">
+                <label for="fta">Facturacion Total Anual</label>
+                <input type="number" id="fta" name="fta" th:field="*{fta}" min="5" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Guardar Empresa</button>
+            </div>
+        </form>
+
+    </section>
+</body>
