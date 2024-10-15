@@ -36,4 +36,9 @@ public class EmpresaService {
     public void save(Empresa empresa) {
         empresaReposiroty.save(empresa);
     }
+
+    public void registerSale(Empresa emp, Double monto) {
+        emp.setFta(emp.getFta() + monto);
+        save(emp);
+    }
 }

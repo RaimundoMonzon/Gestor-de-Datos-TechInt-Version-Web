@@ -43,7 +43,7 @@ public class Empresa {
     private Date fechaIngreso;
 
     @Column()
-    private Float fta; // Facturacion Total Anual
+    private Double fta; // Facturacion Total Anual
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "empresa_pais", joinColumns = @JoinColumn(name = "empresa_id"), inverseJoinColumns = @JoinColumn(name = "pais_id"))

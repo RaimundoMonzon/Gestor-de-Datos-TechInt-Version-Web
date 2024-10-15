@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Rol;
 import Programacion2.HoldingEmpresas.entities.UserEntity;
+import Programacion2.HoldingEmpresas.entities.Vendedor;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserService {
 
+    private final EmpresaService empresaService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final HttpSession session;
@@ -119,5 +121,11 @@ public class UserService {
             user.setPassword(getById(user.getId()).getPassword()); // Si no se cambia la contraseña, se mantiene la anterior
         }
         return user;
+    }
+
+    public void registerSale(Vendedor ven, Double monto) {
+        ven.setIngresosTotales(ven.getIngresosTotales() + monto);
+        empresaService.registerSale(ven.getEmpresa(), monto);
+        save(ven);
     }
 }
