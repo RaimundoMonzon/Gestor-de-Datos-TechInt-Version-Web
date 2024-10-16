@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <title>Crear | TechInt Multinacional</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const areas = document.getElementById('areasOperadas');
+            const choicesAreas = new Choices(areas, {
+                removeItemButton: true,
+                placeholderValue: 'Seleccione una o más Áreas'
+            });
+
+            const startDate = document.getElementById('fechaCelebracion');
+            const endDate = document.getElementById('fechaCaducidad');
+
+            startDate.addEventListener('change', function () {
+                endDate.min = startDate.value;
+            });
+        });
+    </script>
+
+
+</head>
+
+<body>
+    <div th:insert="~{fragments/navbar :: navbar(sign-contract)}"></div>
+    <h2>Firmar Contrato</h2>
+    <section class="page-card">
+        <h3>Informacion del Contrato</h3>
+
+        <form th:action="@{/sign-contract}" method="get">
+            <div class="form-group">
+                <label for="empresas"> Seleccione una Empresa</label>
+                <select name="empresaID" id="empresas" onchange="this.form.submit()">
+                    <option value="" placeholder>Empresas</option>
+                    <option th:each="empresa : ${empresas}" th:value="${empresa.id}" th:text="${empresa.nombreEmpresa}"
+                        th:selected="${empresa.id == empresaID}">
+                    </option>
+                </select>
+            </div>
+        </form>
+
+        <form th:action="@{/sign-contract}" method="post" th:if="${contrato != null}" th:object="${contrato}">
+            <input type="hidden" th:field="*{id}" required>
+            <input type="hidden" th:field="*{empresa}" required>
+            <input type="hidden" th:field="*{asesor}" required>
+
+            <div class="form-group">
+                <label for="areasOperadas">Areas Operadas</label>
+                <select th:field="*{areasOperadas}" multiple required>
+                    <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaCelebracion">Fecha de Celebracion</label>
+                <input type="date" id="fechaCelebracion" name="fechaCelebracion" th:field="*{fechaCelebracion}"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="fechaCaducidad">Fecha de Celebracion</label>
+                <input type="date" id="fechaCaducidad" name="fechaCaducidad" th:field="*{fechaCaducidad}" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Firmar</button>
+            </div>
+        </form>
+
+        <div th:if="${error}" class="alert alert-danger">
+            <h2 th:text="${error}"></h2>
+        </div>
+
+    </section>
+</body>

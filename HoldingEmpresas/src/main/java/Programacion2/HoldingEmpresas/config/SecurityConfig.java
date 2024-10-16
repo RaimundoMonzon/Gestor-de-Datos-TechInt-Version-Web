@@ -32,7 +32,7 @@ public class SecurityConfig {
                     // Permitir acceso a recursos estáticos
                     .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                     // Permitir acceso a páginas de login, registro y logout
-                    .requestMatchers("/login", "/register", "/logout").permitAll()
+                    .requestMatchers("/login", "/register", "/logout", "/error").permitAll()
 
                     // Todas las demás rutas requieren autenticación
                     .requestMatchers("/profile").hasAnyRole("ADMIN", "ASESOR", "VENDEDOR")

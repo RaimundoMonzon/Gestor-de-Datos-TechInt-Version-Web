@@ -62,24 +62,21 @@
                 <div class="form-group">
                     <label for="sede">Sede de la Empresa</label>
                     <select th:field="*{sede}" required>
-                        <!-- Iterate over the empresas list and create an option for each -->
-                        <option th:each="pais : ${paises}" th:value="${pais.capital}" th:text="${pais.capital}">
-                        </option>
+                        <option th:each="pais : ${paises}" th:value="${pais.capital}" th:text="${pais.capital}"></option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="paisesOperados">Paises Operados</label>
                     <select th:field="*{paisesOperados}" multiple required>
-                        <!-- Iterate over the empresas list and create an option for each -->
                         <option th:each="pais : ${paises}" th:value="${pais.id}" th:text="${pais.nombrePais}"></option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="areasOperadas">Areas Operadas</label>
                     <select th:field="*{areasOperadas}" multiple required>
-                        <!-- Iterate over the areas list and create an option for each -->
-                        <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}">
-                        </option>
+                        <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}"></option>
                     </select>
                 </div>
             </div>
@@ -88,10 +85,12 @@
                 <label for="fechaIngreso">Fecha de Ingreso</label>
                 <input type="date" id="fechaIngreso" name="fechaIngreso" th:field="*{fechaIngreso}" required>
             </div>
+
             <div class="form-group">
                 <label for="fta">Facturacion Total Anual</label>
                 <input type="number" id="fta" name="fta" th:field="*{fta}" min="5" required>
             </div>
+            
             <div class="form-group">
                 <button type="submit">Guardar Empresa</button>
             </div>

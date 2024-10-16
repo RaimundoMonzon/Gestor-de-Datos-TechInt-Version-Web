@@ -32,6 +32,9 @@ public class Contrato {
     @Column(nullable = false)
     private Date fechaCelebracion;
 
+    @Column(nullable = false)
+    private Date fechaCaducidad;
+
     @ManyToMany
     @JoinTable(
         name = "contrato_area", 

@@ -101,6 +101,7 @@
                         <th>Asesor</th>
                         <th>Empresa</th>
                         <th>Fecha de Celebracion</th>
+                        <th>Fecha de Caducidad</th>
                         <th>Areas Asesoradas</th>
                     </tr>
                     <tr th:if="${listaEntidades}">
@@ -192,9 +193,10 @@
                     <tr th:if="${entidad == 'CONTRATO'}" th:each="contrato : ${contratos}">
                         <!-- Atributos de los CONTRATOS -->
                         <td th:text="${contrato.id}">ID</td>
-                        <td th:text="${contrato.asesor}">Asesor</td>
-                        <td th:text="${contrato.empresa}">Empresa</td>
+                        <td th:text="${contrato.asesor.username}">Asesor</td>
+                        <td th:text="${contrato.empresa.nombreEmpresa}">Empresa</td>
                         <td th:text="${contrato.fechaCelebracion}">Fecha Celebracion</td>
+                        <td th:text="${contrato.fechaCaducidad}">Fecha Caducidad</td>
                         <td>
                             <li th:each="area : ${contrato.areasOperadas}" th:text="${area.nombreArea}">Areas Asesoradas
                             </li>

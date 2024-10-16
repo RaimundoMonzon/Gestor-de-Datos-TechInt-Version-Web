@@ -65,12 +65,12 @@ public class CreateController {
             Model model) {
 
         if (!password.equals(passwordConfirmation)) {
-            model.addAttribute("Error: ", "La contraseña no coincide");
+            model.addAttribute("error", "La contraseña no coincide");
             return "create/user";
         }
         
         if (userRepository.findByUsername(username).isPresent()) {
-            model.addAttribute("Error: ", "El nombre de usuario ya esta tomado.");
+            model.addAttribute("error", "El nombre de usuario ya esta tomado.");
             return "create/user";
         }
         switch (rol) {
@@ -165,7 +165,7 @@ public class CreateController {
             @RequestParam List<Pais> paisesOperados,
             @RequestParam List<Area> areasOperadas,
             @RequestParam Date fechaIngreso,
-            @RequestParam Float fta) {
+            @RequestParam Double fta) {
         Empresa empresa = new Empresa();
         empresa.setNombreEmpresa(nombre);
         empresa.setSede(sede);

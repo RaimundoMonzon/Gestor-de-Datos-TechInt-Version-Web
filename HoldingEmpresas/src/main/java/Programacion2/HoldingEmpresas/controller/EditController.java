@@ -75,7 +75,7 @@ public class EditController {
             Model model) {
 
         if (!password.equals(passwordConfirmation)) {
-            model.addAttribute("Error: ", "La contraseña no coincide");
+            model.addAttribute("error", "La contraseña no coincide");
             return "edit/user";
         }
 
@@ -114,8 +114,7 @@ public class EditController {
 
     @GetMapping("/pais")
     public String editPaisForm(@RequestParam(required = false) Long paisID, Model model) {
-        List<Pais> paises = paisService.getAll();
-        model.addAttribute("paises", paises);
+        model.addAttribute("paises", paisService.getAll());
 
         if (paisID != null) {
             model.addAttribute("pais", paisService.getById(paisID));
@@ -132,8 +131,7 @@ public class EditController {
 
     @GetMapping("/area")
     public String editAreasForm(@RequestParam(required = false) Long areaID, Model model) {
-        List<Area> areas = areaService.getAll();
-        model.addAttribute("areas", areas);
+        model.addAttribute("areas", areaService.getAll());
 
         if (areaID != null) {
             model.addAttribute("area", areaService.getById(areaID));
@@ -150,8 +148,7 @@ public class EditController {
 
     @GetMapping("/empresa")
     public String editEmpresaForm(@RequestParam(required = false) Long empresaID, Model model) {
-        List<Empresa> empresas = empresaService.getAll();
-        model.addAttribute("empresas", empresas);
+        model.addAttribute("empresas", empresaService.getAll());
 
         if (empresaID != null) {
             List<Area> areas = areaService.getAll();

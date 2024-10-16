@@ -54,8 +54,7 @@ public class BusquedaController {
                     model.addAttribute("empresas", empresas);
                     break;
                 default:
-                    List<UserEntity> usuarios = userService.filterUsers(nombre,
-                            atributos.contains("rol") && !entidad.equals("USERS") ? entidad : null, id);
+                    List<UserEntity> usuarios = userService.filterUsers(nombre, !entidad.equals("USERS") ? entidad : null, id);
                     model.addAttribute("usuarios", usuarios);
                     break;
             }
