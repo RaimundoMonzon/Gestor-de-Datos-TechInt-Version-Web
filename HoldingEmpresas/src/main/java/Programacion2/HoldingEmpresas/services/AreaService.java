@@ -34,4 +34,8 @@ public class AreaService {
     public void save(Area area) {
         areaRepository.save(area);
     }
+
+    public void delete(Long id) {
+        areaRepository.deleteById(id);
+    }
 }

@@ -128,4 +128,12 @@ public class UserService {
         empresaService.registerSale(ven.getEmpresa(), monto);
         save(ven);
     }
+
+    public boolean checkPassword(String password) {
+        return passwordEncoder.matches(password, getLoggedUser().getPassword());
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 }

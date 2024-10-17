@@ -109,9 +109,10 @@
 
         <section class="delete-entity">
             <h3>Eliminar Usuario</h3>
-            <form th:action="@{/edit/user}" method="post" th:if="${usuario!=null}">
+            <form th:action="@{/delete/user}" method="post" th:if="${usuario!=null}">
                 <div class="form-group">
                     <label>Nombre:</label>
+                    <input type="hidden" name="id" th:value="${usuario.id}">
                     <p th:text="${usuario.username}">Usuario</p>
                 </div>
 

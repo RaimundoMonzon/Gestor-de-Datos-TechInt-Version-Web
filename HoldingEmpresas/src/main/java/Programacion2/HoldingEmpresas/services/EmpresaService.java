@@ -41,4 +41,8 @@ public class EmpresaService {
         emp.setFta(emp.getFta() + monto);
         save(emp);
     }
+
+    public void delete(Long id) {
+        empresaReposiroty.deleteById(id);
+    }
 }
