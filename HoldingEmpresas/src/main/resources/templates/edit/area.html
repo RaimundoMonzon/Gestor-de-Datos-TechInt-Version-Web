@@ -4,7 +4,7 @@
 <head>
     <title>Editar | TechInt Multinacional</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/edit-forms.css}">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
                 <label for="usuarios"> Seleccione un Area</label>
                 <select name="areaID" id="areas" onchange="this.form.submit()">
                     <option value="" placeholder>areas</option>
-                    <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}">
+                    <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}" th:selected="${area.id == areaID}">
                     </option>
                 </select>
             </div>

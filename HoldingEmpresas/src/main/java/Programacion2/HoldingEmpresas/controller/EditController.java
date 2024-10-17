@@ -57,7 +57,7 @@ public class EditController {
                 model.addAttribute("vendedor", userService.getLoggedUser());
             }
         }
-
+        model.addAttribute("usuarioID", usuarioID);
         return "edit/user";
     }
 
@@ -119,7 +119,7 @@ public class EditController {
         if (paisID != null) {
             model.addAttribute("pais", paisService.getById(paisID));
         }
-
+        model.addAttribute("paisID", paisID);
         return "edit/pais";
     }
 
@@ -136,7 +136,7 @@ public class EditController {
         if (areaID != null) {
             model.addAttribute("area", areaService.getById(areaID));
         }
-
+        model.addAttribute("areaID", areaID);
         return "edit/area";
     }
 
@@ -157,7 +157,7 @@ public class EditController {
             model.addAttribute("paises", paises);
             model.addAttribute("empresa", empresaService.getById(empresaID));
         }
-
+        model.addAttribute("empresaID", empresaID);
         return "edit/empresa";
     }
 
