@@ -71,8 +71,9 @@ ul li {
 
 /* For when only one section is present */
 .profile-container.single-column {
-    flex-direction: column;
-    align-items: center;
+    display: flex;
+    flex-direction: column; /* Items arranged top to bottom */
+    align-items: center; /* Horizontally center items */
 }
 
 /* Styling for the action button */

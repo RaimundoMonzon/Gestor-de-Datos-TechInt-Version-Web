@@ -34,4 +34,8 @@ public class PaisService {
     public void save(Pais pais) {
         paisRepository.save(pais);
     }
+
+    public void delete(Long id) {
+        paisRepository.deleteById(id);
+    }
 }
