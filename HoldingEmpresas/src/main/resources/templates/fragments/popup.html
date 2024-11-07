@@ -1,0 +1,8 @@
+<div th:fragment="popup" class="popup" id="popup" th:classappend="${popupType == 'success' ? 'popup-success' : 'popup-error'}" style="display:none;">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/popup.css}">
+    <div class="popup-content">
+        <h2 th:text="${popupTitle}" class="popup-title" id="popupTitle">Mensaje de Error</h2>
+        <p th:text="${popupMessage}" class="popup-message" id="popupMessage"></p>
+        <div class="loading-bar" id="loadingBar"></div>
+    </div>
+</div>

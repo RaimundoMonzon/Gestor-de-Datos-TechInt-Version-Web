@@ -10,6 +10,7 @@ import Programacion2.HoldingEmpresas.services.AreaService;
 import Programacion2.HoldingEmpresas.services.EmpresaService;
 import Programacion2.HoldingEmpresas.services.PaisService;
 import Programacion2.HoldingEmpresas.services.UserService;
+import Programacion2.HoldingEmpresas.services.PopUpService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -26,10 +27,12 @@ public class DeleteController {
     public String editUser(@RequestParam Long id, @RequestParam String password, Model model) {
         if (userService.checkPassword(password)) {
             userService.delete(id);
+            PopUpService.showSuccessPopUp(model);
             return "edit";
         }
 
-        model.addAttribute("error", "La contraseña no coincide");
+        model.addAttribute("usuarios", userService.getAll());
+        PopUpService.showPasswordErrorPopUp(model);
         return "redirect:/edit/user";
     }
 
@@ -37,10 +40,12 @@ public class DeleteController {
     public String editPais(@RequestParam Long id, @RequestParam String password, Model model) {
         if (userService.checkPassword(password)) {
             paisService.delete(id);
+            PopUpService.showSuccessPopUp(model);
             return "edit";
         }
 
-        model.addAttribute("error", "La contraseña no coincide");
+        model.addAttribute("paises", paisService.getAll());
+        PopUpService.showPasswordErrorPopUp(model);
         return "edit/pais";
     }
 
@@ -48,10 +53,12 @@ public class DeleteController {
     public String editArea(@RequestParam Long id, @RequestParam String password, Model model) {
         if (userService.checkPassword(password)) {
             areaService.delete(id);
+            PopUpService.showSuccessPopUp(model);
             return "edit";
         }
 
-        model.addAttribute("error", "La contraseña no coincide");
+        model.addAttribute("areas", areaService.getAll());
+        PopUpService.showPasswordErrorPopUp(model);
         return "edit/area";
     }
 
@@ -59,10 +66,12 @@ public class DeleteController {
     public String editEmpresa(@RequestParam Long id, @RequestParam String password, Model model) {
         if (userService.checkPassword(password)) {
             empresaService.delete(id);
+            PopUpService.showSuccessPopUp(model);
             return "edit";
         }
 
-        model.addAttribute("error", "La contraseña no coincide");
+        model.addAttribute("empresas", empresaService.getAll());
+        PopUpService.showPasswordErrorPopUp(model);
         return "edit/empresa";
     }
 

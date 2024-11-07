@@ -5,7 +5,7 @@
     <title>Registrar Ingreso | TechInt Multinacional</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
-
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
@@ -21,6 +21,10 @@
                 <button type="submit">Registrar</button>
             </div>
         </form>
-
     </section>
+
+    <!-- Popup for password error -->
+    <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+    <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
+
 </body>

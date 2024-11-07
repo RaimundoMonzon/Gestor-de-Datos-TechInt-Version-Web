@@ -5,6 +5,8 @@
     <title>Editar | TechInt Multinacional</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/edit-forms.css}">
+
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
@@ -13,18 +15,19 @@
     <section class="content-wrapper">
         <section class="page-card">
             <h3>Informacion del Area</h3>
-    
+
             <form th:action="@{/edit/area}" method="get">
                 <div class="form-group">
                     <label for="usuarios"> Seleccione un Area</label>
                     <select name="areaID" id="areas" onchange="this.form.submit()">
                         <option value="" placeholder>areas</option>
-                        <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}" th:selected="${area.id == areaID}">
+                        <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}"
+                            th:selected="${area.id == areaID}">
                         </option>
                     </select>
                 </div>
             </form>
-    
+
             <form th:action="@{/edit/area}" method="post" th:if="${area != null}" th:object="${area}">
                 <input type="hidden" th:field="*{id}">
                 <div class="form-group">
@@ -40,7 +43,7 @@
                 </div>
             </form>
         </section>
-        
+
         <section class="delete-entity">
             <h3>Eliminar Area</h3>
             <form th:action="@{/delete/area}" method="post" th:if="${area!=null}">
@@ -66,4 +69,11 @@
             </form>
         </section>
     </section>
+
+    <!-- Popup for password error -->
+    <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+    <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
+
 </body>
+
+</html>

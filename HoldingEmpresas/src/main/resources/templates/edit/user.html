@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script type="text/javascript" th:src="@{/js/edit.js}"></script>
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
@@ -22,7 +23,8 @@
                     <label for="usuarios"> Seleccione un Usuario</label>
                     <select name="usuarioID" id="usuarios" onchange="this.form.submit()">
                         <option value="" placeholder>Usuarios</option>
-                        <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.username}" th:selected="${usuario.id == usuarioID}">
+                        <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.username}"
+                            th:selected="${usuario.id == usuarioID}">
                         </option>
                     </select>
                 </div>
@@ -131,6 +133,11 @@
                 </div>
             </form>
         </section>
+
+        <!-- Popup for password error -->
+        <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+        <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
+
     </section>
 </body>
 

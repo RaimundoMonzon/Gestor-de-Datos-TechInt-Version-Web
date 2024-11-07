@@ -7,6 +7,7 @@
     <title>Crear | TechInt Multinacional</title>
     <link rel="stylesheet" type="text/css" href="/css/create.css">
     <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
@@ -21,6 +22,11 @@
             <a th:href="@{/create/user}" class="page-card">Crear Usuario</a>
         </div>
     </main>
+
+    <!-- Popup for password error -->
+    <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+    <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
+
 </body>
 
 </html>

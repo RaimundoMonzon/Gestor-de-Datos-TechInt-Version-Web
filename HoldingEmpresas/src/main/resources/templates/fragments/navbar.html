@@ -11,7 +11,16 @@
             <div class="logo-circle">
                 <img th:src="@{/images/Techint_Logo.png}" alt="Logo de TechInt" class="logo-img">
             </div>
-            <span class="logo-text">TechInt Multinacional</span>
+            <span class="logo-text" th:text="${ 
+                currentPage == 'home' ? 'TechInt Multinacional - Inicio' : 
+                currentPage == 'create' ? 'TechInt Multinacional - Crear' : 
+                currentPage == 'register-sale' ? 'TechInt Multinacional - Registrar Ingreso' :
+                currentPage == 'sign-contract' ? 'TechInt Multinacional - Firmar Contrato' :
+                currentPage == 'edit' ? 'TechInt Multinacional - Editar' :
+                currentPage == 'busqueda' ? 'TechInt Multinacional - Buscar' :
+                currentPage == 'profile' ? 'TechInt Multinacional - Mi Perfil' : 'TechInt Multinacional'}">
+                TechInt Multinacional
+            </span>
         </div>
         <div class="links">
             <a th:href="@{/home}" th:classappend="${currentPage == 'home'} ? 'active' : ''">Inicio</a>

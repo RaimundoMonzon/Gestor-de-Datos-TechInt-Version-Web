@@ -1,6 +1,5 @@
 package Programacion2.HoldingEmpresas.controller;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Programacion2.HoldingEmpresas.entities.Vendedor;
+import Programacion2.HoldingEmpresas.services.PopUpService;
 import Programacion2.HoldingEmpresas.services.UserService;
 import lombok.AllArgsConstructor;
 
@@ -23,8 +23,9 @@ public class SalesController {
     }
 
     @PostMapping("/register-sale")
-    public String editArea(@RequestParam Double monto) {
+    public String editArea(@RequestParam Double monto, Model model) {
         userService.registerSale((Vendedor) userService.getLoggedUser(), monto);
+        PopUpService.showSuccessPopUp(model);
         return "register-sale";
     }
 
