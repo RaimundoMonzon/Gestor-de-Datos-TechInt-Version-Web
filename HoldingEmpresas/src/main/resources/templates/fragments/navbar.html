@@ -8,7 +8,9 @@
 <body>
     <nav th:fragment="navbar (currentPage)">
         <div class="logo-container">
-            <img th:src="@{/images/Techint_Logo.png}" alt="Logo de TechInt" class="logo-img">
+            <div class="logo-circle">
+                <img th:src="@{/images/Techint_Logo.png}" alt="Logo de TechInt" class="logo-img">
+            </div>
             <span class="logo-text">TechInt Multinacional</span>
         </div>
         <div class="links">
