@@ -7,11 +7,14 @@
 }
 
 body {
-    background-color: #f0f2f5;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-image: url("../images/TechIntAuth.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
 }
 
 h2 {

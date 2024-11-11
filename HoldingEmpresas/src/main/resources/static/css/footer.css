@@ -1,0 +1,31 @@
+@import url("constants.css");
+
+footer {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer .footer-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer .social-media a {
+    margin: 0 10px;
+}

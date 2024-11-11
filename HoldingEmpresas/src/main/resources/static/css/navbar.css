@@ -1,3 +1,5 @@
+@import url("constants.css");
+
 body {
     margin: 0;
     font-family: 'Lato', sans-serif;
@@ -15,7 +17,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #2E8B57;
+    background-color: var(--primary-color);
     transition: top 500ms ease-in-out;
     z-index: 1000; /* Añadir esto para asegurarse de que el navbar está por encima del contenido */
 }
@@ -69,7 +71,7 @@ nav.scroll-down {
 }
 
 .links a:hover {
-    background-color: #227948;
+    background-color: var(--hover-color);
 }
 
 .links a.active::after,
@@ -78,13 +80,13 @@ nav.scroll-down {
     position: absolute;
     width: 100%;
     height: 2px;
-    background-color: #4ca1af;
+    background-color: var(--navbar-active-color);
     bottom: -2px; /* Posicionar justo debajo del enlace */
     left: 0;
 }
 
 .links a.active {
-    border-bottom: 2px solid #4ca1af; /* Línea de la pestaña activa */
+    border-bottom: 2px solid var(--navbar-active-color);; /* Línea de la pestaña activa */
 }
 
 /* Section Styles */
@@ -102,22 +104,10 @@ section p {
     line-height: 140%;
 }
 
-/* Footer Styles */
-footer {
-    padding: 1em;
-    text-align: center;
-    background-color: #FFDFB9;
-}
-
-footer a {
-    color: inherit;
-    text-decoration: none;
-}
-
 .logo-circle {
     width: 50px; /* Adjust size as needed */
     height: 50px;
-    background-color: #d4d4d4; /* Choose a green shade here */
+    background-color: var(--logo-background-color); /* Choose a green shade here */
     border-radius: 50%;
     display: flex;
     align-items: center;

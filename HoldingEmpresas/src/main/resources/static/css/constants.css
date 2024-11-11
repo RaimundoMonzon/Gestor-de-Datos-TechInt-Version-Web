@@ -1,0 +1,10 @@
+/* constants.css */
+
+/* Color Constants */
+:root {
+    --primary-color: #2E8B57;
+    --hover-color: #227948;
+    --navbar-active-color: #4ca1af;
+    --logo-background-color: #d4d4d4;
+    --footer-background-color: #333;
+}

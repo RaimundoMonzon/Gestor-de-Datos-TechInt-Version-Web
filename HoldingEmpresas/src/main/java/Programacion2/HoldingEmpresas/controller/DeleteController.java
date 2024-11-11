@@ -33,7 +33,7 @@ public class DeleteController {
 
         model.addAttribute("usuarios", userService.getAll());
         PopUpService.showPasswordErrorPopUp(model);
-        return "redirect:/edit/user";
+        return "edit/user";
     }
 
     @PostMapping("/pais")

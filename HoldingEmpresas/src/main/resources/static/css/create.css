@@ -1,9 +1,12 @@
 /* General page styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    background-image: url("../images/TechIntCreate.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
 }
 
 .page-container {
@@ -39,28 +42,39 @@ h1 {
     text-decoration: none;
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    -webkit-transition: all 1000ms;
+    transition: all 1000ms;
+    overflow: hidden;
+    position: relative;
 }
 
 .page-card:hover {
     border-color: #4CAF50;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-5px);
+    outline: 2px solid #70bdca;
 }
 
 .page-card:active {
     transform: translateY(0);
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .page-options {
-        flex-direction: column;
-        align-items: center;
-    }
+.page-card::before {
+    content: "";
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: #2c9caf;
+    -webkit-transform: skewX(45deg);
+    -ms-transform: skewX(45deg);
+    transform: skewX(45deg);
+    z-index: -1;
+    -webkit-transition: width 1000ms;
+    transition: width 1000ms;
+}
 
-    .page-card {
-        width: 80%;
-        margin-bottom: 15px;
-    }
+.page-card:hover::before {
+    width: 250%;
 }

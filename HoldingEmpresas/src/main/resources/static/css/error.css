@@ -12,8 +12,11 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f7f8fc;
     color: #333;
+    background-image: url("../images/TechIntError.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
 }
 
 /* Container for the error content */
