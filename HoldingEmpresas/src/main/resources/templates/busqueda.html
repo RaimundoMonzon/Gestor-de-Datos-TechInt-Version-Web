@@ -130,9 +130,9 @@
                         </td>
                         <!-- Atributos de los VENDEDORES -->
                         <td th:if="${atributos.contains('manager')}"
-                            th:text="${usuario.rol.name() == 'VENDEDOR'} ? ${usuario.managerID} : '-'">Manager</td>
+                            th:text="${usuario.rol.name() == 'VENDEDOR' && usuario.managerID != null} ? ${usuario.managerID} : '-'">Manager</td>
                         <td th:if="${atributos.contains('ingresos')}"
-                            th:text="${usuario.rol.name() == 'VENDEDOR'} ? ${usuario.ingresosTotales} : '$0,00'">
+                            th:text="${usuario.rol.name() == 'VENDEDOR'} ? '$ ' + ${usuario.ingresosTotales} : '$ 0.0'">
                             Ingresos
                         </td>
                         <td th:if="${atributos.contains('empresa')}"
@@ -140,8 +140,7 @@
                             Empresa</td>
                         <td th:if="${atributos.contains('subContratados')}">
                             <ul th:if="${usuario.rol.name() == 'VENDEDOR'}">
-                                <li th:each="vendedor : ${usuario.subContratados}" th:text="${vendedor.username}">
-                                    Subcontratados</li>
+                                <li th:each="vendedor : ${usuario.subContratados}" th:text="${vendedor.username}">Subcontratados</li>
                             </ul>
                             <ul th:unless="${usuario.rol.name() == 'VENDEDOR'}">-</ul>
                         </td>

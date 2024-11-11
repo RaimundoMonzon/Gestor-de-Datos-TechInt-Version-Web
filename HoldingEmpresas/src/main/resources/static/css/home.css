@@ -1,6 +1,12 @@
+@import url("constants.css");
+
 body {
     background-image: url("../images/TechIntHome.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;
+}
+
+h1 {
+    color: var(--header-text-color);
 }
