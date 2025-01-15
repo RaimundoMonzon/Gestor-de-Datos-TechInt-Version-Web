@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login TechInt</title>
     <link rel="stylesheet" th:href="@{/css/login.css}">
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
@@ -17,11 +18,11 @@
             <button type="submit">Login</button>
         </form>
 
-        <div th:if="${error}" class="alert alert-danger">
-            <p th:text="${error}"></p>
-        </div>
     </div>
-    </div>
+
+    <!-- Popup for password error -->
+    <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+    <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
 
 </body>
 

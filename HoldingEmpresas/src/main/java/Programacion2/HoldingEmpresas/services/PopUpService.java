@@ -21,4 +21,12 @@ public class PopUpService {
         model.addAttribute("popupMessage", "La operacion fue realizada con exito.");
         return;
     }
+
+    public static void showCredentialErrorPopUp(Model model) {
+        model.addAttribute("showPopUp", true);
+        model.addAttribute("popupType", "error");
+        model.addAttribute("popupTitle", "Error");
+        model.addAttribute("popupMessage", "Credenciales Incorrectas, Intentelo Nuevamente.");
+        return;
+    }
 }
