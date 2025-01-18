@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script type="text/javascript" th:src="@{/js/create.js}"></script>
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
     <div th:insert="~{fragments/navbar :: navbar('create')}"></div>
-    <h2>Crear Nuevo Usuario</h2>
     <section class="page-card">
         <h3>Información del Usuario</h3>
         <form th:action="@{/create/user}" method="post">
@@ -76,8 +76,6 @@
                 <div class="form-group">
                     <label for="areasOperadas">Area</label>
                     <select id="areasOperadas" name="areasOperadas[]" multiple required>
-                        <option value=""></option>
-                        <!-- Iterate over the areas list and create an option for each -->
                         <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.nombreArea}">
                         </option>
                     </select>
@@ -92,8 +90,12 @@
                 <button type="submit">Crear Usuario</button>
             </div>
         </form>
-        
+
+
     </section>
+    <!-- Popup -->
+    <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+    <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
 </body>
 
 </html>

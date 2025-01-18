@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -21,8 +22,7 @@
 
             const choicesPaises = new Choices(paises, {
                 removeItemButton: true,
-                placeholderValue: 'Seleccione uno o más Países',
-                noChoicesText: false
+                placeholderValue: 'Seleccione uno o más Países'
             });
 
             const choicesAreas = new Choices(areas, {
@@ -36,7 +36,6 @@
 
 <body>
     <div th:insert="~{fragments/navbar :: navbar(create)}"></div>
-    <h2>Crear Nueva Empresa</h2>
     <section class="page-card">
         <h3>Informacion de la Empresa</h3>
         <form th:action="@{/create/empresa}" method="post">
@@ -50,7 +49,8 @@
                     <label for="sede">Sede de la Empresa</label>
                     <select id="sede" name="sede" required>
                         <!-- Iterate over the empresas list and create an option for each -->
-                        <option th:each="pais : ${paises}" th:value="${pais.capital}" th:text="${pais.capital}"></option>
+                        <option th:each="pais : ${paises}" th:value="${pais.capital}" th:text="${pais.capital}">
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -82,6 +82,10 @@
                 <button type="submit">Crear Empresa</button>
             </div>
         </form>
+
+        <!-- Popup -->
+        <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+        <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
 
     </section>
 </body>

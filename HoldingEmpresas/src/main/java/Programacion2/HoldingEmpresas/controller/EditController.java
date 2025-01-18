@@ -22,6 +22,7 @@ import Programacion2.HoldingEmpresas.entities.Vendedor;
 import Programacion2.HoldingEmpresas.services.AreaService;
 import Programacion2.HoldingEmpresas.services.EmpresaService;
 import Programacion2.HoldingEmpresas.services.PaisService;
+import Programacion2.HoldingEmpresas.services.PopUpService;
 import Programacion2.HoldingEmpresas.services.UserService;
 import lombok.AllArgsConstructor;
 
@@ -75,13 +76,18 @@ public class EditController {
             Model model) {
 
         if (!password.equals(passwordConfirmation)) {
-            model.addAttribute("error", "La contraseña no coincide");
+            PopUpService.showPasswordMismatchPopUp(model);
+            List<UserEntity> usuarios = userService.getAll();
+            model.addAttribute("usuarios", usuarios);
             return "edit/user";
         }
 
         switch (rol) {
             case ADMIN:
                 Administrador admin = (Administrador) userService.getById(id);
+                if (handleUsernameCheck(model, username, admin)) {
+                    return "edit/user";
+                }
                 admin.setUsername(username);
                 admin = (Administrador) userService.updatePassword(admin, password);
                 admin.setFechaIngreso(fechaIngreso);
@@ -90,6 +96,9 @@ public class EditController {
                 break;
             case ASESOR:
                 Asesor asesor = (Asesor) userService.getById(id);
+                if (handleUsernameCheck(model, username, asesor)) {
+                    return "edit/user";
+                }
                 asesor.setUsername(username);
                 asesor = (Asesor) userService.updatePassword(asesor, password);
                 asesor.setFechaIngreso(fechaIngreso);
@@ -100,6 +109,9 @@ public class EditController {
                 break;
             case VENDEDOR:
                 Vendedor vendedor = (Vendedor) userService.getById(id);
+                if (handleUsernameCheck(model, username, vendedor)) {
+                    return "edit/user";
+                }
                 vendedor.setUsername(username);
                 vendedor = (Vendedor) userService.updatePassword(vendedor, password);
                 vendedor.setFechaIngreso(fechaIngreso);
@@ -124,7 +136,14 @@ public class EditController {
     }
 
     @PostMapping("/pais")
-    public String editPais(@ModelAttribute Pais pais) {
+    public String editPais(@ModelAttribute Pais pais, Model model) {
+        Pais p = paisService.getById(pais.getId());
+        if(paisService.isNameTaken(pais.getNombrePais()) && !p.getNombrePais().equals(pais.getNombrePais())) {
+            PopUpService.showNameAlreadyTakenPopUp(model);
+            List<Pais> paises = paisService.getAll();
+            model.addAttribute("paises", paises);
+            return "edit/pais";
+        }
         paisService.save(pais);
         return "edit";
     }
@@ -141,7 +160,14 @@ public class EditController {
     }
 
     @PostMapping("/area")
-    public String editArea(@ModelAttribute Area area) {
+    public String editArea(@ModelAttribute Area area, Model model) {
+        Area a = areaService.getById(area.getId());
+        if(areaService.isNameTaken(area.getNombreArea()) && !a.getNombreArea().equals(area.getNombreArea())) {
+            PopUpService.showNameAlreadyTakenPopUp(model);
+            List<Area> areas = areaService.getAll();
+            model.addAttribute("areas", areas);
+            return "edit/area";
+        }
         areaService.save(area);
         return "edit";
     }
@@ -162,9 +188,26 @@ public class EditController {
     }
 
     @PostMapping("/empresa")
-    public String editEmpresa(@ModelAttribute Empresa empresa) {
+    public String editEmpresa(@ModelAttribute Empresa empresa, Model model) {
+        Empresa e = empresaService.getById(empresa.getId());
+        if(empresaService.isNameTaken(empresa.getNombreEmpresa()) && !e.getNombreEmpresa().equals(empresa.getNombreEmpresa())) {
+            PopUpService.showNameAlreadyTakenPopUp(model);
+            List<Empresa> empresas = empresaService.getAll();
+            model.addAttribute("empresas", empresas);
+            return "edit/empresa";
+        }
         empresaService.save(empresa);
         return "edit";
+    }
+
+    private boolean handleUsernameCheck(Model model, String username, UserEntity user) {
+        if (userService.isUsernameTaken(username) && !username.equals(user.getUsername())) {
+            PopUpService.showUsernameAlreadyTakenPopUp(model);
+            List<UserEntity> usuarios = userService.getAll();
+            model.addAttribute("usuarios", usuarios);
+            return true;
+        }
+        return false;
     }
 
 }

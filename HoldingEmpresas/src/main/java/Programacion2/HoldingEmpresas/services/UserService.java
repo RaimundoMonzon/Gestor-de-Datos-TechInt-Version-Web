@@ -136,4 +136,8 @@ public class UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    public boolean isUsernameTaken(String username) {
+        return getByName(username).isPresent();   
+    }
 }

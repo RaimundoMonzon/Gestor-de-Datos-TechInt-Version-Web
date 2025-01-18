@@ -6,19 +6,17 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
     <script type="text/javascript" th:src="@{/js/create.js}"></script>
-
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
     <div th:insert="~{fragments/navbar :: navbar(create)}"></div>
-    <h2>Crear Nueva Area</h2>
     <section class="page-card">
         <h3>Informacion del Area</h3>
         <form th:action="@{/create/area}" method="post">
             <div class="form-group">
                 <label for="nombre">Nombre del Area</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del Area"
-                    required>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del Area" required>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripcion</label>
@@ -29,6 +27,10 @@
                 <button type="submit">Crear Area</button>
             </div>
         </form>
+
+        <!-- Popup -->
+        <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+        <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
 
     </section>
 </body>

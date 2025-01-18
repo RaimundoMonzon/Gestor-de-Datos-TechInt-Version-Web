@@ -6,31 +6,27 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/create-forms.css}">
     <script type="text/javascript" th:src="@{/js/create.js}"></script>
-
+    <script src="@{/js/popup.js}" th:src="@{/js/popup.js}"></script>
 </head>
 
 <body>
     <div th:insert="~{fragments/navbar :: navbar(create)}"></div>
-    <h2>Crear Nuevo Pais</h2>
     <section class="page-card">
         <h3>Informacion del Pais</h3>
         <form th:action="@{/create/pais}" method="post">
             <div class="form-group">
                 <label for="nombre">Nombre del Pais</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del Pais"
-                    required>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del Pais" required>
             </div>
 
             <div class="form-group">
                 <label for="capital">Capital del Pais</label>
-                <input type="text" id="capital" name="capital" placeholder="Ingrese la capital del Pais"
-                    required>
+                <input type="text" id="capital" name="capital" placeholder="Ingrese la capital del Pais" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="poblacion">Poblacion del Pais</label>
-                <input type="number" id="poblacion" name="poblacion" placeholder="Poblacion" min="5000"
-                    required>
+                <input type="number" id="poblacion" name="poblacion" placeholder="Poblacion" min="5000" required>
             </div>
             <div class="form-group">
                 <label for="pbi">PBI del Pais</label>
@@ -40,6 +36,10 @@
                 <button type="submit">Crear Pais</button>
             </div>
         </form>
+
+        <!-- Popup -->
+        <div th:replace="~{fragments/popup}" th:if="${showPopUp}"></div>
+        <input type="hidden" th:if="${showPopUp}" id="showPopUpFlag" value="true" />
 
     </section>
 </body>

@@ -45,4 +45,8 @@ public class EmpresaService {
     public void delete(Long id) {
         empresaReposiroty.deleteById(id);
     }
+
+    public boolean isNameTaken(String nombreEmpresa) {
+        return empresaReposiroty.findByNombreEmpresa(nombreEmpresa).isPresent();
+    }
 }

@@ -38,4 +38,8 @@ public class AreaService {
     public void delete(Long id) {
         areaRepository.deleteById(id);
     }
+
+    public boolean isNameTaken(String nombreArea) {
+        return areaRepository.findByNombreArea(nombreArea).isPresent();
+    }
 }

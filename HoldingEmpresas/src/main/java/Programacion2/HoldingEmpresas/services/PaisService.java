@@ -38,4 +38,8 @@ public class PaisService {
     public void delete(Long id) {
         paisRepository.deleteById(id);
     }
+    
+    public boolean isNameTaken(String nombrePais) {
+        return paisRepository.findByNombrePais(nombrePais).isPresent();
+    }
 }

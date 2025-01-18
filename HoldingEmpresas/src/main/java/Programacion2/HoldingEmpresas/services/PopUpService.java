@@ -6,27 +6,38 @@ import org.springframework.ui.Model;
 @Service
 public class PopUpService {
 
-    public static void showPasswordErrorPopUp(Model model) {
+    public static void showPopUp(Model model, String popupType, String popupTitle, String popupMessage) {
         model.addAttribute("showPopUp", true);
-        model.addAttribute("popupType", "error");
-        model.addAttribute("popupTitle", "Error");
-        model.addAttribute("popupMessage", "Contraseña Incorrecta, Intentelo Nuevamente.");
-        return;
+        model.addAttribute("popupType", popupType);
+        model.addAttribute("popupTitle", popupTitle);
+        model.addAttribute("popupMessage", popupMessage);
+    }
+
+    public static void showPasswordErrorPopUp(Model model) {
+        showPopUp(model, "error", "Error", "Contraseña Incorrecta, Intentelo Nuevamente.");
     }
 
     public static void showSuccessPopUp(Model model) {
-        model.addAttribute("showPopUp", true);
-        model.addAttribute("popupType", "success");
-        model.addAttribute("popupTitle", "Exito!");
-        model.addAttribute("popupMessage", "La operacion fue realizada con exito.");
-        return;
+        showPopUp(model, "success", "Exito!", "La operacion fue realizada con exito.");
     }
 
     public static void showCredentialErrorPopUp(Model model) {
-        model.addAttribute("showPopUp", true);
-        model.addAttribute("popupType", "error");
-        model.addAttribute("popupTitle", "Error");
-        model.addAttribute("popupMessage", "Credenciales Incorrectas, Intentelo Nuevamente.");
-        return;
+        showPopUp(model, "error", "Error", "Credenciales Incorrectas, Intentelo Nuevamente.");
+    }
+
+    public static void showPasswordMismatchPopUp(Model model) {
+        showPopUp(model, "error", "Error", "Las contraseñas no coinciden, Intentelo Nuevamente.");
+    }
+
+    public static void showUsernameAlreadyTakenPopUp(Model model) {
+        showPopUp(model, "error", "Error", "El nombre de usuario ya esta tomado, Intentelo Nuevamente.");
+    }
+
+    public static void showNameAlreadyTakenPopUp(Model model) {
+        showPopUp(model, "error", "Error", "Ese nombre ya esta tomado, Intentelo Nuevamente.");
+    }
+
+    public static void showCannotDeleteSelfPopUp(Model model) {
+        showPopUp(model, "error", "Error", "No puedes eliminarte a ti mismo, Intentelo Nuevamente.");
     }
 }

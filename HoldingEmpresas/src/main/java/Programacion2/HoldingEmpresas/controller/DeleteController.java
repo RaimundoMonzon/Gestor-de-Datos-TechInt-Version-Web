@@ -25,6 +25,12 @@ public class DeleteController {
 
     @PostMapping("/user")
     public String editUser(@RequestParam Long id, @RequestParam String password, Model model) {
+
+        if(userService.getLoggedUser().getId().equals(id)) {
+            PopUpService.showCannotDeleteSelfPopUp(model);
+            return "edit/user";
+        }
+
         if (userService.checkPassword(password)) {
             userService.delete(id);
             PopUpService.showSuccessPopUp(model);

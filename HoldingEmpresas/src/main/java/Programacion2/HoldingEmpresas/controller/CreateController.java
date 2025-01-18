@@ -16,6 +16,7 @@ import Programacion2.HoldingEmpresas.repositories.UserRepository;
 import Programacion2.HoldingEmpresas.services.AreaService;
 import Programacion2.HoldingEmpresas.services.EmpresaService;
 import Programacion2.HoldingEmpresas.services.PaisService;
+import Programacion2.HoldingEmpresas.services.PopUpService;
 import Programacion2.HoldingEmpresas.services.UserService;
 import lombok.AllArgsConstructor;
 
@@ -65,12 +66,14 @@ public class CreateController {
             Model model) {
 
         if (!password.equals(passwordConfirmation)) {
-            model.addAttribute("error", "La contraseña no coincide");
+            PopUpService.showPasswordMismatchPopUp(model);
+            model.addAttribute("vendedor", userService.getLoggedUser());
             return "create/user";
         }
-        
+
         if (userRepository.findByUsername(username).isPresent()) {
-            model.addAttribute("error", "El nombre de usuario ya esta tomado.");
+            PopUpService.showNameAlreadyTakenPopUp(model);
+            model.addAttribute("vendedor", userService.getLoggedUser());
             return "create/user";
         }
         switch (rol) {
@@ -99,7 +102,7 @@ public class CreateController {
                 vendedor.setFechaIngreso(fechaIngreso);
                 vendedor.setRol(rol);
                 vendedor.setEmpresa(empresa);
-                vendedor.setIngresosTotales( 0.00);
+                vendedor.setIngresosTotales(0.00);
                 userService.save(vendedor);
                 if (userService.getLoggedUserRol() == "VENDEDOR") {
                     Vendedor manager = (Vendedor) userService.getLoggedUser();
@@ -123,8 +126,13 @@ public class CreateController {
             @RequestParam String nombre,
             @RequestParam String capital,
             @RequestParam Long poblacion,
-            @RequestParam Float pbi) {
+            @RequestParam Float pbi,
+            Model model) {
         Pais pais = new Pais();
+        if (paisService.isNameTaken(nombre)) {
+            PopUpService.showNameAlreadyTakenPopUp(model);
+            return "create/pais";
+        }
         pais.setNombrePais(nombre);
         pais.setCapital(capital);
         pais.setPoblacion(poblacion);
@@ -141,8 +149,13 @@ public class CreateController {
     @PostMapping("/area")
     public String createArea(
             @RequestParam String nombre,
-            @RequestParam String descripcion) {
+            @RequestParam String descripcion,
+            Model model) {
         Area area = new Area();
+        if (areaService.isNameTaken(nombre)) {
+            PopUpService.showNameAlreadyTakenPopUp(model);
+            return "create/area";
+        }
         area.setNombreArea(nombre);
         area.setDescripcion(descripcion);
         areaService.save(area);
@@ -165,8 +178,17 @@ public class CreateController {
             @RequestParam List<Pais> paisesOperados,
             @RequestParam List<Area> areasOperadas,
             @RequestParam Date fechaIngreso,
-            @RequestParam Double fta) {
+            @RequestParam Double fta,
+            Model model) {
         Empresa empresa = new Empresa();
+        if (empresaService.isNameTaken(nombre)) {
+            PopUpService.showNameAlreadyTakenPopUp(model);
+            List<Area> areas = areaService.getAll();
+            List<Pais> paises = paisService.getAll();
+            model.addAttribute("areas", areas);
+            model.addAttribute("paises", paises);
+            return "create/empresa";
+        }
         empresa.setNombreEmpresa(nombre);
         empresa.setSede(sede);
         empresa.setPaisesOperados(paisesOperados);

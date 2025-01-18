@@ -22,16 +22,16 @@
                 <label for="entidad">Filtrar por Entidad:</label>
                 <select id="entidad" name="entidad">
                     <option value="" placeholder>Entidades</option>
-                    <option value="USERS" th:selected="${entidad == 'USERS'}">Todos los usuarios</option>
+                    <option th:if="${#authentication.principal.rol.name() == 'ADMIN'}" value="USERS" th:selected="${entidad == 'USERS'}">Todos los usuarios</option>
                     <optgroup label="Usuarios por tipo">
-                        <option value="ADMIN" th:selected="${entidad == 'ADMIN'}">Admin</option>
-                        <option value="ASESOR" th:selected="${entidad == 'ASESOR'}">Asesor</option>
-                        <option value="VENDEDOR" th:selected="${entidad == 'VENDEDOR'}">Vendedor</option>
+                        <option th:if="${#authentication.principal.rol.name() == 'ADMIN'}" value="ADMIN" th:selected="${entidad == 'ADMIN'}">Admin</option>
+                        <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'ASESOR'}" value="ASESOR" th:selected="${entidad == 'ASESOR'}">Asesor</option>
+                        <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'VENDEDOR'}" value="VENDEDOR" th:selected="${entidad == 'VENDEDOR'}">Vendedor</option>
                     </optgroup>
-                    <option value="EMPRESA" th:selected="${entidad == 'EMPRESA'}">Empresa</option>
+                    <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'ASESOR'}" value="EMPRESA" th:selected="${entidad == 'EMPRESA'}">Empresa</option>
                     <option value="AREA" th:selected="${entidad == 'AREA'}">Area</option>
                     <option value="PAIS" th:selected="${entidad == 'PAIS'}">Pais</option>
-                    <option value="CONTRATO" th:selected="${entidad == 'CONTRATO'}">Contrato</option>
+                    <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'ASESOR'}" value="CONTRATO" th:selected="${entidad == 'CONTRATO'}">Contrato</option>
                 </select>
             </div>
 
