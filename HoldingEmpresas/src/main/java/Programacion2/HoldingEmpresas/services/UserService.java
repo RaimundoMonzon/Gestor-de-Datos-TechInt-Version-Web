@@ -51,7 +51,16 @@ public class UserService {
         }
     }
 
-    public List<UserEntity> filterUsers(String username, String rol, Long id) {
+    public List<UserEntity> filterUsers(String username, String rol, Long id, Boolean exactMatch) {
+
+        if (exactMatch) {
+            Optional<UserEntity> user = userRepository.findByUsernameExact(username);
+            if (user.isPresent()) {
+                return List.of(user.get());
+            }
+            return List.of();
+        }
+
         if (id != null && rol != null && !rol.isEmpty()) {
             return userRepository.findByIdAndRol(id, Rol.valueOf(rol));
         }

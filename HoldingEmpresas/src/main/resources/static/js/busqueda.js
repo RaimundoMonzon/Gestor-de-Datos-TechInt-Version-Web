@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const selectorEntidad = document.getElementById("entidad");
     const atributosField = document.getElementById("atributos");
-    const idSearchField = document.getElementById("id-search");
     const atributosLabel = document.getElementById("atributosLabel");
     const selectorAtributosContainer = selectorAtributos.containerOuter.element;
 

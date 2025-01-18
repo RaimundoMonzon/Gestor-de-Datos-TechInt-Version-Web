@@ -45,12 +45,17 @@
 
             <div class="form-group">
                 <label for="id-search">Filtrar por ID:</label>
-                <input type="number" id="id-search" name="id" placeholder="ID" th:value="${id}">
+                <input type="number" id="id-search" name="id" placeholder="ID" th:value="${id != null ? id : ''}">
             </div>
 
             <div class="form-group">
                 <label for="name-search">Filtrar por Nombre:</label>
-                <input type="text" id="name-search" name="nombre" placeholder="Nombre" th:value="${nombre}">
+                <input type="text" id="name-search" name="nombre" placeholder="Nombre" th:value="${nombre != null ? nombre : ''}">
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label for="exactMatch">Nombre Exacto</label>
+                <input type="checkbox" id="exactMatch" name="exactMatch" th:checked="${exactMatch != null ? exactMatch : false}">
             </div>
 
             <button type="submit">Aplicar Filtros</button>
@@ -60,54 +65,8 @@
             <h3>Results</h3>
             <table>
                 <thead>
-                    <tr th:if="${atributos != null}">
-                        <!-- Atributos de todos los Usuarios -->
-                        <th th:if="${atributos.contains('id')}">ID</th>
-                        <th th:if="${atributos.contains('username')}">Nombre</th>
-                        <th th:if="${atributos.contains('rol')}">Rol</th>
-                        <!-- Atributos de los ASESORES -->
-                        <th th:if="${atributos.contains('titulacion')}">Titulacion</th>
-                        <th th:if="${atributos.contains('areasOperadas')}">Areas Operadas</th>
-                        <!-- Atributos de los VENDEDORES -->
-                        <th th:if="${atributos.contains('manager')}">Manager</th>
-                        <th th:if="${atributos.contains('ingresos')}">Ingresos</th>
-                        <th th:if="${atributos.contains('empresa')}">Empresa</th>
-                        <th th:if="${atributos.contains('subContratados')}">Vendedores Contratados</th>
-                        <!-- Atributos de las EMPRESAS -->
-                        <th th:if="${atributos.contains('nombreEmpresa')}">Nombre</th>
-                        <th th:if="${atributos.contains('sede')}">Sede</th>
-                        <th th:if="${atributos.contains('fta')}">Facturacion Anual</th>
-                        <th th:if="${atributos.contains('paisesOperados')}">Paises Operados</th>
-                        <th th:if="${atributos.contains('areasOperadasEmp')}">Areas Operadas Empresas</th>
-                        <th th:if="${atributos.contains('vendedoresContratados')}">Vendedores Contratados</th>
-                        <th th:if="${atributos.contains('asesoresContratados')}">Asesores Contratados</th>
-                        <!-- Atributos de todos los Usuarios y EMPRESA-->
-                        <th th:if="${atributos.contains('fechaIngreso')}">Fecha de Ingreso</th>
-                    </tr>
-                    <tr th:if="${entidad == 'AREA'}">
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                    </tr>
-                    <tr th:if="${entidad == 'PAIS'}">
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Capital</th>
-                        <th>Poblacion</th>
-                        <th>PBI</th>
-                    </tr>
-                    <tr th:if="${entidad == 'CONTRATO'}">
-                        <th>ID</th>
-                        <th>Asesor</th>
-                        <th>Empresa</th>
-                        <th>Fecha de Celebracion</th>
-                        <th>Fecha de Caducidad</th>
-                        <th>Areas Asesoradas</th>
-                    </tr>
-                    <tr th:if="${listaEntidades}">
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Entidad</th>
+                    <tr>
+                        <th th:each="header : ${headers}" th:text="${header}"></th>
                     </tr>
                 </thead>
 
@@ -201,7 +160,7 @@
                             </li>
                         </td>
                     </tr>
-                    <tr th:if="${datosEntidad}" th:each="datosEntidad : ${listaEntidades}">
+                    <tr th:each="datosEntidad : ${listaEntidades}">
                         <td th:text="${datosEntidad['id']}"></td>
                         <td th:text="${datosEntidad['nombre']}"></td>
                         <td th:text="${datosEntidad['tipo']}"></td>

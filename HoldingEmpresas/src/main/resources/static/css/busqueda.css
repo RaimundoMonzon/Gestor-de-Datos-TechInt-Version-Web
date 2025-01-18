@@ -61,6 +61,24 @@ body {
     box-sizing: border-box;
 }
 
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adjust gap for spacing between checkbox and label */
+}
+
+.checkbox-group label {
+    margin-bottom: 2.5px;
+    font-size: 0.9em; /* Adjust label size to be smaller */
+    align-self: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
 button {
     width: 100%;
     padding: 12px;
