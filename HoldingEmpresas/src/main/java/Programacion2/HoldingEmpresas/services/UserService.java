@@ -149,4 +149,27 @@ public class UserService {
     public boolean isUsernameTaken(String username) {
         return getByName(username).isPresent();   
     }
+
+
+    public void deleteVendedor(Long oldManagerID, Long newManagerID) {
+        if(newManagerID != '0') { 
+            reasignOrphanedSubcontratados(oldManagerID, newManagerID);
+        }
+        userRepository.deleteById(oldManagerID);
+    }
+
+    private void reasignOrphanedSubcontratados(Long oldManagerID, Long newManagerID) {
+        userRepository.findById(newManagerID).ifPresent(newManager -> {
+            userRepository.findById(oldManagerID).ifPresent(oldManager -> {
+                ((Vendedor) oldManager).getSubContratados().forEach(sub -> {
+                    sub.setManagerID(newManagerID);
+                    save(sub);
+                });
+            });
+        });        
+    }
+
+    public boolean isVendedor(Long id) {
+        return getById(id) instanceof Vendedor;
+    }
 }

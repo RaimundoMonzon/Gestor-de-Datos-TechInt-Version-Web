@@ -33,9 +33,6 @@ public abstract class UserEntity implements UserDetails{
     @Column(nullable = false)
     private String password;
 
-    // @Column()
-    // private String direccion;
-
     @Column()
     private Date fechaIngreso;
 

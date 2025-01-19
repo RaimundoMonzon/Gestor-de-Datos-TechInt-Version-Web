@@ -20,7 +20,7 @@ public class Vendedor extends UserEntity{
     @Column()
     private Double ingresosTotales;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "manager_id")
     @ToString.Exclude private List<Vendedor> subContratados;
 

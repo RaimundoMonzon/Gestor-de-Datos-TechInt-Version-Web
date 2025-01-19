@@ -24,7 +24,7 @@ public class DeleteController {
     private final PaisService paisService;
 
     @PostMapping("/user")
-    public String editUser(@RequestParam Long id, @RequestParam String password, Model model) {
+    public String editUser(@RequestParam Long id, @RequestParam Long newManagerID, @RequestParam String password, Model model) {
 
         if(userService.getLoggedUser().getId().equals(id)) {
             PopUpService.showCannotDeleteSelfPopUp(model);
@@ -32,6 +32,9 @@ public class DeleteController {
         }
 
         if (userService.checkPassword(password)) {
+            if(userService.isVendedor(id)) {
+                userService.deleteVendedor(id, newManagerID);
+            }
             userService.delete(id);
             PopUpService.showSuccessPopUp(model);
             return "edit";
