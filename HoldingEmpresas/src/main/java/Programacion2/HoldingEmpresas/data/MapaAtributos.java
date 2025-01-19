@@ -84,6 +84,7 @@ public class MapaAtributos {
         mapaAtributos.get("CONTRATO").add(new Atributo("asesorACargo", "Asesor a Cargo"));
         mapaAtributos.get("CONTRATO").add(new Atributo("empresaCliente", "Empresa Cliente"));
         mapaAtributos.get("CONTRATO").add(new Atributo("fechaCelebracion", "Fecha Celebracion"));
+        mapaAtributos.get("CONTRATO").add(new Atributo("fechaCaducidad", "Fecha Caducidad"));
         mapaAtributos.get("CONTRATO").add(new Atributo("areasAsesoradas", "Areas Asesoradas"));
 
         mapaAtributos.put("ENTIDADES", new ArrayList<>());

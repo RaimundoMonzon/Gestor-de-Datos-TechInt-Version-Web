@@ -24,7 +24,7 @@ public class DeleteController {
     private final PaisService paisService;
 
     @PostMapping("/user")
-    public String editUser(@RequestParam Long id, @RequestParam Long newManagerID, @RequestParam String password, Model model) {
+    public String editUser(@RequestParam Long id, @RequestParam(required = false) Long newManagerID, @RequestParam String password, Model model) {
 
         if(userService.getLoggedUser().getId().equals(id)) {
             PopUpService.showCannotDeleteSelfPopUp(model);

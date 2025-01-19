@@ -40,7 +40,7 @@ public class SearchController {
         }
 
         List<String> headers = new ArrayList<>();
-        if (atributos != null || entidad != null) {
+        if (atributos != null || (entidad != null && entidad != "")) {
             Map<String, String> attributeMap = MapaAtributos.mapaAtributos.get(entidad).stream()
                     .collect(Collectors.toMap(a -> a.value, a -> a.text, (e1, e2) -> e1, LinkedHashMap::new));
 
