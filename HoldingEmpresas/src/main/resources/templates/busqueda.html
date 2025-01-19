@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script type="text/javascript" th:src="@{/js/busqueda.js}"></script>
+    <script type="module" th:src="@{/js/busqueda.js}"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
 </head>
 
 <body>
@@ -63,7 +70,7 @@
 
         <div class="results">
             <h3>Results</h3>
-            <table>
+            <table id="myTable" class="tablesorter">
                 <thead>
                     <tr>
                         <th th:each="header : ${headers}" th:text="${header}"></th>
@@ -169,6 +176,17 @@
             </table>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                searching: false,     // Remove search bar
+                paging: false,        // Remove pagination controls
+                lengthChange: false,   // Remove the "Show entries" dropdown
+                info: false
+            });
+        });
+    </script>
 </body>
 
 </html>

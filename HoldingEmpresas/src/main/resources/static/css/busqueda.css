@@ -126,6 +126,21 @@ td {
     border: 1px solid #ddd;
 }
 
+/* Change the sorting arrow appearance */
+th.sorting::after {
+    content: '▼';  /* Default down arrow */
+    color: #333;
+    margin-left: 5px;
+}
+
+th.sorting_asc::after {
+    content: '▲';  /* Up arrow for ascending */
+}
+
+th.sorting_desc::after {
+    content: '▼';  /* Down arrow for descending */
+}
+
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }

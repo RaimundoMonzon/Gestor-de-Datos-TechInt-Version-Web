@@ -125,7 +125,7 @@
                 <div th:if="${usuario.rol.name() == 'VENDEDOR'}" class="form-group">
                     <select name="newManagerID" id="newManagerID" required>
                         <option value="" th:text="'Seleccione un nuevo Manager'" selected disabled></option>
-                        <option th:each="user : ${usuarios}" th:if="${user.rol.name() == 'VENDEDOR' && user.id != usuario.id}" th:value="${user.id}" th:text="${user.username}"
+                        <option th:each="user : ${usuarios}" th:if="${user.rol.name() == 'VENDEDOR' && user.id != usuario.id && user.managerID == usuario.id}" th:value="${user.id}" th:text="${user.username}"
                             th:selected="${user.id == usuarioID}">
                         </option>
                         <option value="0">Eliminar todos los sub-contratados</option>

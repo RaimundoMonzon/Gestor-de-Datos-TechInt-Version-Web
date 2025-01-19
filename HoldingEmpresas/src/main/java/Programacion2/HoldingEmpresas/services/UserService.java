@@ -64,7 +64,7 @@ public class UserService {
         if (id != null && rol != null && !rol.isEmpty()) {
             return userRepository.findByIdAndRol(id, Rol.valueOf(rol));
         }
-        
+
         if (id != null) {
             return userRepository.findByIdOrUsernameContainingIgnoreCase(id, null);
         }
@@ -124,10 +124,11 @@ public class UserService {
     }
 
     public UserEntity updatePassword(UserEntity user, String password) {
-        if (!password.isEmpty()){
+        if (!password.isEmpty()) {
             user.setPassword(passwordEncoder.encode(password));
-        } else{
-            user.setPassword(getById(user.getId()).getPassword()); // Si no se cambia la contraseña, se mantiene la anterior
+        } else {
+            user.setPassword(getById(user.getId()).getPassword()); // Si no se cambia la contraseña, se mantiene la
+                                                                   // anterior
         }
         return user;
     }
@@ -147,12 +148,11 @@ public class UserService {
     }
 
     public boolean isUsernameTaken(String username) {
-        return getByName(username).isPresent();   
+        return getByName(username).isPresent();
     }
 
-
     public void deleteVendedor(Long oldManagerID, Long newManagerID) {
-        if(newManagerID != '0') { 
+        if (newManagerID != '0') {
             reasignOrphanedSubcontratados(oldManagerID, newManagerID);
         }
         userRepository.deleteById(oldManagerID);
@@ -161,12 +161,21 @@ public class UserService {
     private void reasignOrphanedSubcontratados(Long oldManagerID, Long newManagerID) {
         userRepository.findById(newManagerID).ifPresent(newManager -> {
             userRepository.findById(oldManagerID).ifPresent(oldManager -> {
-                ((Vendedor) oldManager).getSubContratados().forEach(sub -> {
+                List<Vendedor> subContratadosOld = ((Vendedor) oldManager).getSubContratados();
+                subContratadosOld.remove(newManager);
+                List<Vendedor> subContratadosNew = ((Vendedor) newManager).getSubContratados();
+
+                subContratadosOld.forEach(sub -> {
                     sub.setManagerID(newManagerID);
+                    subContratadosNew.add(sub);
                     save(sub);
                 });
+
+                subContratadosOld.clear();
+                save(oldManager);
+                save(newManager);
             });
-        });        
+        });
     }
 
     public boolean isVendedor(Long id) {

@@ -67,13 +67,19 @@ public class CreateController {
 
         if (!password.equals(passwordConfirmation)) {
             PopUpService.showPasswordMismatchPopUp(model);
-            model.addAttribute("vendedor", userService.getLoggedUser());
+            List<Empresa> empresas = empresaService.getAll();
+            List<Area> areas = areaService.getAll();
+            model.addAttribute("empresas", empresas);
+            model.addAttribute("areas", areas);
             return "create/user";
         }
 
         if (userRepository.findByUsername(username).isPresent()) {
             PopUpService.showNameAlreadyTakenPopUp(model);
-            model.addAttribute("vendedor", userService.getLoggedUser());
+            List<Empresa> empresas = empresaService.getAll();
+            List<Area> areas = areaService.getAll();
+            model.addAttribute("empresas", empresas);
+            model.addAttribute("areas", areas);
             return "create/user";
         }
         switch (rol) {
@@ -108,11 +114,15 @@ public class CreateController {
                     Vendedor manager = (Vendedor) userService.getLoggedUser();
                     manager.getSubContratados().add(vendedor);
                     userService.save(manager);
+                    PopUpService.showSuccessPopUp(model);
+                    model.addAttribute("vendedor", userService.getLoggedUser());
+                    return "create/user";
                 }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid Rol");
         }
+        PopUpService.showSuccessPopUp(model);
         return "create";
     }
 
@@ -138,6 +148,7 @@ public class CreateController {
         pais.setPoblacion(poblacion);
         pais.setPbi(pbi);
         paisService.save(pais);
+        PopUpService.showSuccessPopUp(model);
         return "create";
     }
 
@@ -159,6 +170,7 @@ public class CreateController {
         area.setNombreArea(nombre);
         area.setDescripcion(descripcion);
         areaService.save(area);
+        PopUpService.showSuccessPopUp(model);
         return "create";
     }
 
@@ -196,6 +208,7 @@ public class CreateController {
         empresa.setFechaIngreso(fechaIngreso);
         empresa.setFta(fta);
         empresaService.save(empresa);
+        PopUpService.showSuccessPopUp(model);
         return "create";
     }
 

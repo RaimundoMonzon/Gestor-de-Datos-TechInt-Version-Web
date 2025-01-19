@@ -5,13 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
+import Programacion2.HoldingEmpresas.data.MapaAtributos;
 import Programacion2.HoldingEmpresas.services.*;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -32,26 +35,28 @@ public class SearchController {
             @RequestParam(value = "exactMatch", required = false) Boolean exactMatch,
             Model model) {
 
-        if (exactMatch == null) {exactMatch = false;}
-
-        Map<String, List<String>> entityHeaders = Map.of(
-            "USERS", List.of("ID", "Nombre", "Rol", "Titulación", "Áreas Operadas", "Manager", "Ingresos", "Empresa", "Subcontratados", "Fecha de Ingreso"),
-            "ADMIN" , List.of("ID", "Nombre", "Rol", "Fecha de Ingreso"),
-            "ASESOR", List.of("ID", "Nombre", "Rol", "Titulación", "Áreas Operadas", "Fecha de Ingreso"),
-            "VENDEDOR", List.of("ID", "Nombre", "Rol", "Manager", "Ingresos", "Empresa", "Subcontratados", "Fecha de Ingreso"),
-            "PAIS", List.of("ID", "Nombre", "Capital", "Poblacion", "PBI"),
-            "AREA", List.of("ID", "Nombre", "Descripcion"),
-            "CONTRATO", List.of("ID", "Asesor", "Empresa", "Fecha de Celebracion", "Fecha de Caducidad", "Areas Asesoradas"),
-            "EMPRESA", List.of("ID", "Nombre de Empresa", "Sede", "Facturacion Anual", "Paises Operados", "Areas Operadas", "Vendedores Contratados", "Asesores Contratados", "Fecha de Ingreso"),
-            "ENTIDADES", List.of("ID", "Nombre", "Entidad")
-        );
-
-        if (entidad != null && entityHeaders.containsKey(entidad)) {
-            model.addAttribute("headers", entityHeaders.get(entidad));
-        } else if (atributos != null) {
-            model.addAttribute("headers", atributos);
+        if (exactMatch == null) {
+            exactMatch = false;
         }
 
+        List<String> headers = new ArrayList<>();
+        if (atributos != null || entidad != null) {
+            Map<String, String> attributeMap = MapaAtributos.mapaAtributos.get(entidad).stream()
+                    .collect(Collectors.toMap(a -> a.value, a -> a.text, (e1, e2) -> e1, LinkedHashMap::new));
+
+            if (atributos != null) {
+                for (String atributo : attributeMap.keySet()) {
+                    if (atributos.contains(atributo)) {
+                        headers.add(attributeMap.get(atributo));
+                    }
+                }
+            } else {
+                headers = attributeMap.values().stream().collect(Collectors.toList());
+            }
+            model.addAttribute("headers", headers);
+        }
+
+        // Se filtran los datos
         if (entidad != "" && entidad != null) {
             switch (entidad) {
                 case "PAIS":
@@ -67,12 +72,14 @@ public class SearchController {
                     model.addAttribute("empresas", empresaService.filterEmpresas(nombre, id));
                     break;
                 default:
-                    model.addAttribute("usuarios", userService.filterUsers(nombre, !entidad.equals("USERS") ? entidad : null, id, exactMatch));
+                    model.addAttribute("usuarios",
+                            userService.filterUsers(nombre, !entidad.equals("USERS") ? entidad : null, id, exactMatch));
                     break;
             }
         } else if (entidad == "" && id != null) {
             model.addAttribute("listaEntidades", populateEntityList(nombre, id, exactMatch));
-            model.addAttribute("headers", entityHeaders.get("ENTIDADES"));
+            model.addAttribute("headers", MapaAtributos.mapaAtributos.get("ENTIDADES").stream().map(a -> a.text)
+                    .collect(Collectors.toList()));
         }
 
         // Se los devuelvo para que mantengan persistencia
@@ -95,11 +102,14 @@ public class SearchController {
 
     private List<Map<String, Object>> populateEntityList(String nombre, Long id, Boolean exactMatch) {
         List<Map<String, Object>> list = new ArrayList<>();
-        userService.filterUsers(nombre, null, id, exactMatch).forEach(user -> addEntityToList(list, user.getId(), user.getUsername(), user.getRol().name()));
-        empresaService.filterEmpresas(nombre, id).forEach(empresa -> addEntityToList(list, empresa.getId(), empresa.getNombreEmpresa(), "EMPRESA"));
+        userService.filterUsers(nombre, null, id, exactMatch)
+                .forEach(user -> addEntityToList(list, user.getId(), user.getUsername(), user.getRol().name()));
+        empresaService.filterEmpresas(nombre, id)
+                .forEach(empresa -> addEntityToList(list, empresa.getId(), empresa.getNombreEmpresa(), "EMPRESA"));
         paisService.filterPais(id).forEach(pais -> addEntityToList(list, pais.getId(), pais.getNombrePais(), "PAIS"));
         areaService.filterAreas(id).forEach(area -> addEntityToList(list, area.getId(), area.getNombreArea(), "AREA"));
-        contratoService.filterContratos(id).forEach(contrato -> addEntityToList(list, contrato.getId(), contrato.getAsesor() + " Asesora a:" + contrato.getEmpresa().getNombreEmpresa(), "CONTRATO"));
+        contratoService.filterContratos(id).forEach(contrato -> addEntityToList(list, contrato.getId(),
+                contrato.getAsesor() + " Asesora a:" + contrato.getEmpresa().getNombreEmpresa(), "CONTRATO"));
         return list;
     }
 

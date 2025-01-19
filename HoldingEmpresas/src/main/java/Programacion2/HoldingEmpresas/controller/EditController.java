@@ -121,6 +121,7 @@ public class EditController {
             default:
                 throw new IllegalArgumentException("Invalid Rol");
         }
+        PopUpService.showSuccessPopUp(model);
         return "edit";
     }
 
@@ -145,6 +146,7 @@ public class EditController {
             return "edit/pais";
         }
         paisService.save(pais);
+        PopUpService.showSuccessPopUp(model);
         return "edit";
     }
 
@@ -169,6 +171,7 @@ public class EditController {
             return "edit/area";
         }
         areaService.save(area);
+        PopUpService.showSuccessPopUp(model);
         return "edit";
     }
 
@@ -197,6 +200,7 @@ public class EditController {
             return "edit/empresa";
         }
         empresaService.save(empresa);
+        PopUpService.showSuccessPopUp(model);
         return "edit";
     }
 
