@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: MySqlHoldingContainer
+    environment:
+      MYSQL_ROOT_PASSWORD: 54NGWSZoPz4LK58k
+      MYSQL_DATABASE: holdingDataBase
+      MYSQL_USER: rootRai
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  app:
+    build:
+      context: .
+    image: holding-empresas
+    container_name: holding-empresas-app
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://MySqlHoldingContainer:3306/holdingDataBase
+      SPRING_DATASOURCE_USERNAME: rootRai
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - my_network
+
+volumes:
+  mysql_data:
+
+networks:
+  my_network:
+    driver: bridge
