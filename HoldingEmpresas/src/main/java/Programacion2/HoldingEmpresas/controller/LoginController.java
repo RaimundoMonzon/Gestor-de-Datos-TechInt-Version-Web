@@ -19,7 +19,7 @@ public class LoginController {
     private final UserRepository userRepository;
 
     @GetMapping("/login")
-    public String showLoginForm(@RequestParam(value = "error", required = false) String error, Model model) {
+    public String showLoginForm(@RequestParam(required = false) String error, Model model) {
         if (!userService.isAnyUserRegistered()) {
             return "redirect:/register";
         }
@@ -44,8 +44,8 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam("username") String username, @RequestParam("password") String password,
-            @RequestParam("passwordConfirmation") String passwordConfirmation, Model model) {
+    public String registerUser(@RequestParam String username, @RequestParam String password,
+            @RequestParam String passwordConfirmation, Model model) {
         if (!password.equals(passwordConfirmation)) {
             model.addAttribute("error", "Las contraseñas no coinciden");
             return "register";

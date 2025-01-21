@@ -57,7 +57,7 @@ public class CreateController {
     public String createUser(
             @RequestParam String username,
             @RequestParam String password,
-            @RequestParam("passwordConfirmation") String passwordConfirmation,
+            @RequestParam String passwordConfirmation,
             @RequestParam Date fechaIngreso,
             @RequestParam Rol rol,
             @RequestParam(required = false) Empresa empresa,

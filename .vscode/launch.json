@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-HoldingEmpresasApplication<HoldingEmpresas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "Programacion2.HoldingEmpresas.HoldingEmpresasApplication",
+            "projectName": "HoldingEmpresas",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

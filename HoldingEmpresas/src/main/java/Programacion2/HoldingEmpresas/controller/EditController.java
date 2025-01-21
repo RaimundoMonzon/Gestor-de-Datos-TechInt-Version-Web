@@ -67,7 +67,7 @@ public class EditController {
             @RequestParam Long id,
             @RequestParam String username,
             @RequestParam String password,
-            @RequestParam("passwordConfirmation") String passwordConfirmation,
+            @RequestParam String passwordConfirmation,
             @RequestParam Date fechaIngreso,
             @RequestParam Rol rol,
             @RequestParam(required = false) Empresa empresa,

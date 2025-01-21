@@ -28,11 +28,11 @@ public class SearchController {
 
     @GetMapping("/busqueda")
     public String busqueda(
-            @RequestParam(value = "entidad", required = false) String entidad,
-            @RequestParam(value = "atributos", required = false) List<String> atributos,
-            @RequestParam(value = "nombre", required = false) String nombre,
-            @RequestParam(value = "id", required = false) Long id,
-            @RequestParam(value = "exactMatch", required = false) Boolean exactMatch,
+            @RequestParam(required = false) String entidad,
+            @RequestParam(required = false) List<String> atributos,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) Boolean exactMatch,
             Model model) {
 
         if (exactMatch == null) {
