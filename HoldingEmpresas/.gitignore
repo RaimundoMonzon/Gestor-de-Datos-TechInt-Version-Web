@@ -1,8 +1,16 @@
-HELP.md
+# Ignore build output directories
 target/
 !.mvn/wrapper/maven-wrapper.jar
+!mvnw
+!mvnw.cmd
+!pom.xml
+
+# Include target folders only for source code in certain subdirectories
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Help Documentation (included)
+HELP.md
 
 ### STS ###
 .apt_generated
