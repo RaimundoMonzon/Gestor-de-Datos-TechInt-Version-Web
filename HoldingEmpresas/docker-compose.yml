@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
@@ -11,10 +9,6 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - my_network
 
   app:
     build:
@@ -29,12 +23,3 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
     depends_on:
       - mysql
-    networks:
-      - my_network
-
-volumes:
-  mysql_data:
-
-networks:
-  my_network:
-    driver: bridge
