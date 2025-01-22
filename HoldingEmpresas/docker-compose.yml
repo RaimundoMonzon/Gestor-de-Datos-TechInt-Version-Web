@@ -7,6 +7,7 @@ services:
       MYSQL_DATABASE: holdingDataBase
       MYSQL_USER: rootRai
       MYSQL_PASSWORD: root
+      MYSQL_BIND_ADDRESS: "0.0.0.0"
     ports:
       - "3306:3306"
 

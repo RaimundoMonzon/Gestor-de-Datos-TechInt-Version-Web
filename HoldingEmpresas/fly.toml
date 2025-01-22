@@ -26,3 +26,4 @@ primary_region = 'eze'
   SPRING_DATASOURCE_URL = "jdbc:mysql://MySqlHoldingContainer:3306/holdingDataBase"
   SPRING_DATASOURCE_USERNAME = "rootRai"
   SPRING_DATASOURCE_PASSWORD = "root"
+  MYSQL_BIND_ADDRESS: "0.0.0.0"
