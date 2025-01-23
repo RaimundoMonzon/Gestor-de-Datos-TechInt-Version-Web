@@ -22,7 +22,7 @@ EXPOSE 8090
 
 # Set environment variables for AWS MySQL connection
 # Make sure to update with your actual values
-ENV SPRING_DATASOURCE_URL="jdbc:mysql://holding-db.cb6egcecy5xf.us-east-2.rds.amazonaws.com:3306/holding-db"
+ENV SPRING_DATASOURCE_URL="jdbc:mysql://holding-db.cb6egcecy5xf.us-east-2.rds.amazonaws.com:3306/holdingDataBase"
 ENV SPRING_DATASOURCE_USERNAME="rootRai"
 ENV SPRING_DATASOURCE_PASSWORD="~v#N]1&2&4N4WZrDagZ5Z9u,^it[V$"
 
