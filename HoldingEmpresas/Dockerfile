@@ -25,9 +25,9 @@ ENV SPRING_DATASOURCE_URL="jdbc:mysql://holding-db.cb6egcecy5xf.us-east-2.rds.am
 ENV SPRING_DATASOURCE_USERNAME="rootRai"
 ENV SPRING_DATASOURCE_PASSWORD="~v#N]1&2&4N4WZrDagZ5Z9u,^it[V$"
 # Set enviroment variables for Local MySQL connection
-#ENV SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/holdingDataBase"
-#ENV SPRING_DATASOURCE_USERNAME="rootRai"
-#ENV SPRING_DATASOURCE_PASSWORD="root"
+# ENV SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/holdingDataBase"
+# ENV SPRING_DATASOURCE_USERNAME="rootRai"
+# ENV SPRING_DATASOURCE_PASSWORD="root"
 
 # Set the command to run the JAR file
 ENTRYPOINT ["java", "-jar", "target/HoldingEmpresas-0.0.1-SNAPSHOT.jar"]
