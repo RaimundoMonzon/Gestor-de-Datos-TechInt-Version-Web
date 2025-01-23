@@ -20,7 +20,7 @@ public class HomeController {
     @GetMapping("/home")
     public String defaultHome() {
         if(userService.isSomeoneAuthenticated()) {
-            return "/home";
+            return "home";
         }
         return "redirect:/login";
     }
