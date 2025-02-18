@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +10,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/busqueda.js}"></script>
     <script type="module" th:src="@{/js/busqueda.js}"></script>
 
     <!-- jQuery -->
@@ -29,16 +29,28 @@
                 <label for="entidad">Filtrar por Entidad:</label>
                 <select id="entidad" name="entidad">
                     <option value="" placeholder>Entidades</option>
-                    <option th:if="${#authentication.principal.rol.name() == 'ADMIN'}" value="USERS" th:selected="${entidad == 'USERS'}">Todos los usuarios</option>
+                    <option sec:authorize="hasRole('ADMIN')" 
+                            value="USERS" 
+                            th:selected="${entidad == 'USERS'}">Todos los usuarios</option>
                     <optgroup label="Usuarios por tipo">
-                        <option th:if="${#authentication.principal.rol.name() == 'ADMIN'}" value="ADMIN" th:selected="${entidad == 'ADMIN'}">Admin</option>
-                        <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'ASESOR'}" value="ASESOR" th:selected="${entidad == 'ASESOR'}">Asesor</option>
-                        <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'VENDEDOR'}" value="VENDEDOR" th:selected="${entidad == 'VENDEDOR'}">Vendedor</option>
+                        <option sec:authorize="hasRole('ADMIN')" 
+                                value="ADMIN" 
+                                th:selected="${entidad == 'ADMIN'}">Admin</option>
+                        <option sec:authorize="hasAnyRole('ADMIN', 'ASESOR')" 
+                                value="ASESOR" 
+                                th:selected="${entidad == 'ASESOR'}">Asesor</option>
+                        <option sec:authorize="hasAnyRole('ADMIN', 'VENDEDOR')" 
+                                value="VENDEDOR" 
+                                th:selected="${entidad == 'VENDEDOR'}">Vendedor</option>
                     </optgroup>
-                    <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'ASESOR'}" value="EMPRESA" th:selected="${entidad == 'EMPRESA'}">Empresa</option>
+                    <option sec:authorize="hasAnyRole('ADMIN', 'ASESOR')" 
+                            value="EMPRESA" 
+                            th:selected="${entidad == 'EMPRESA'}">Empresa</option>
                     <option value="AREA" th:selected="${entidad == 'AREA'}">Area</option>
                     <option value="PAIS" th:selected="${entidad == 'PAIS'}">Pais</option>
-                    <option th:if="${#authentication.principal.rol.name() == 'ADMIN' || #authentication.principal.rol.name() == 'ASESOR'}" value="CONTRATO" th:selected="${entidad == 'CONTRATO'}">Contrato</option>
+                    <option sec:authorize="hasAnyRole('ADMIN', 'ASESOR')" 
+                            value="CONTRATO" 
+                            th:selected="${entidad == 'CONTRATO'}">Contrato</option>
                 </select>
             </div>
 
@@ -96,7 +108,7 @@
                         </td>
                         <!-- Atributos de los VENDEDORES -->
                         <td th:if="${atributos.contains('manager')}"
-                            th:text="${usuario.rol.name() == 'VENDEDOR' && usuario.managerID != null} ? ${usuario.managerID} : '-'">Manager</td>
+                        th:text="${usuario.rol.name() == 'VENDEDOR'} ? (${usuario.manager?.username} ?: 'N/A') : '-'">Manager</td>
                         <td th:if="${atributos.contains('ingresos')}"
                             th:text="${usuario.rol.name() == 'VENDEDOR'} ? '$ ' + ${usuario.ingresosTotales} : '$ 0.0'">
                             Ingresos
@@ -110,10 +122,8 @@
                             </ul>
                             <ul th:unless="${usuario.rol.name() == 'VENDEDOR'}">-</ul>
                         </td>
-                        <!-- Atributos de todos los Usuarios y EMPRESA-->
-                        <td th:if="${atributos.contains('fechaIngreso')}"
-                            th:text="${#dates.format(usuario.fechaIngreso, 'dd/MM/yyyy')}">Fecha de Ingreso
-                        </td>
+                        <!-- Atributos de TODOS LOS USUARIOS y EMPRESA-->
+                        <td th:if="${atributos.contains('fechaIngreso')}" th:text="${#dates.format(usuario.fechaIngreso, 'dd/MM/yyyy')}">Fecha de Ingreso</td>
                     </tr>
                     <tr th:if="${entidad == 'EMPRESA'}" th:each="empresa : ${empresas}">
                         <!-- Atributos de las EMPRESAS -->
@@ -135,11 +145,10 @@
                                 Vendedores Contratados</li>
                         </td>
                         <td th:if="${atributos.contains('asesoresContratados')}">
-                            <li th:each="asesor : ${empresa.contratosAsesores}" th:text="${asesor.username}">Asesores
+                            <li th:each="contrato : ${empresa.contratosAsesores}" th:text="${contrato.asesor.username}">Asesores
                                 Contratados</li>
                         </td>
-                        <td th:if="${atributos.contains('fechaIngreso')}" th:text="${empresa.fechaIngreso}">Fecha
-                            Ingreso</td>
+                        <td th:if="${atributos.contains('fechaIngreso')}" th:text="${#dates.format(empresa.fechaIngreso, 'dd/MM/yyyy')}">Fecha Ingreso</td>
                     </tr>
                     <tr th:if="${entidad == 'AREA'}" th:each="area : ${areas}">
                         <!-- Atributos de las AREAS -->
@@ -160,8 +169,8 @@
                         <td th:text="${contrato.id}">ID</td>
                         <td th:text="${contrato.asesor.username}">Asesor</td>
                         <td th:text="${contrato.empresa.nombreEmpresa}">Empresa</td>
-                        <td th:text="${contrato.fechaCelebracion}">Fecha Celebracion</td>
-                        <td th:text="${contrato.fechaCaducidad}">Fecha Caducidad</td>
+                        <td th:text="${#dates.format(contrato.fechaCelebracion, 'dd/MM/yyyy')}">Fecha Celebracion</td>
+                        <td th:text="${#dates.format(contrato.fechaCaducidad, 'dd/MM/yyyy')}">Fecha Caducidad</td>
                         <td>
                             <li th:each="area : ${contrato.areasOperadas}" th:text="${area.nombreArea}">Areas Asesoradas
                             </li>

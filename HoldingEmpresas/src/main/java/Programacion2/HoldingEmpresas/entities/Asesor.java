@@ -2,11 +2,14 @@ package Programacion2.HoldingEmpresas.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
@@ -27,9 +30,8 @@ public class Asesor extends UserEntity{
     ) private List<Area> areasOperadas;
 
     @OneToMany(
-        targetEntity = Contrato.class, 
         fetch = FetchType.EAGER,
         mappedBy = "asesor",
         cascade = CascadeType.ALL
-    ) private List<Contrato> contratos;
+    ) @JsonManagedReference private @ToString.Exclude List<Contrato> contratos;
 }

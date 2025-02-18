@@ -11,7 +11,7 @@
 
 <body>
     <div th:insert="~{fragments/navbar :: navbar('profile')}"></div>
-    <h2>Perfil de Usuario</h2>
+    <h1>Perfil de Usuario</h1>
     <section class="profile-container">
         <!-- Mostrar datos generales del UserEntity -->
         <div class="profile-info">
@@ -28,6 +28,8 @@
                 <label>Rol:</label>
                 <p th:text="${user.rol}">Administrador</p>
             </div>
+
+            <!-- <button type="submit">Cambiar Contraseña</button> -->
         </div>
 
         <!-- Mostrar datos específicos del Vendedor o Asesor -->

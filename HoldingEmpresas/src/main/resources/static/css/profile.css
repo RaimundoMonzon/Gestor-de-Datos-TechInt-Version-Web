@@ -1,4 +1,3 @@
-/* General page styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -9,30 +8,28 @@ body {
     background-position: top;
 }
 
-h2 {
+h1 {
     text-align: center;
-    margin: 20px 0;
-    color: #333;
-    font-size: 24px;
+    font-size: 2.5em;
+    color: var(--header-text-color);
+    margin-bottom: 30px;
 }
 
-/* Container for the entire profile page */
 .profile-container {
     display: flex;
-    justify-content: center; /* Center both sections horizontally */
+    justify-content: center;
     align-items: flex-start;
     padding: 20px;
-    gap: 30px; /* Space between two sections */
+    gap: 30px;
 }
 
-/* General styles for the user info panel */
 .profile-info, .additional-info {
     background-color: #ffffff;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px; /* Fixed width for each section */
+    width: 350px;
     box-sizing: border-box;
 }
 
@@ -44,7 +41,6 @@ h3 {
     margin-bottom: 15px;
 }
 
-/* Styling for the labels and values */
 .form-group {
     margin-bottom: 20px;
 }
@@ -79,7 +75,6 @@ ul li {
     align-items: center; /* Horizontally center items */
 }
 
-/* Styling for the action button */
 .form-actions {
     margin-top: 20px;
     text-align: center;
@@ -96,6 +91,23 @@ ul li {
 }
 
 .form-actions button:hover {
+    background-color: #218838;
+}
+
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
     background-color: #218838;
 }
 

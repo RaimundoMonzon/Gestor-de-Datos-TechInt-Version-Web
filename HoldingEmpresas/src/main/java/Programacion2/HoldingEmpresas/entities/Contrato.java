@@ -3,11 +3,15 @@ package Programacion2.HoldingEmpresas.entities;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
@@ -21,12 +25,16 @@ public class Contrato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "asesor_id")
+    @JsonBackReference("asesor-contratos")
+    @ToString.Exclude
     private Asesor asesor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id")
+    @ToString.Exclude
+    @JsonBackReference("empresa-contratos")
     private Empresa empresa;
 
     @Column(nullable = false)
@@ -40,5 +48,5 @@ public class Contrato {
         name = "contrato_area", 
         joinColumns = @JoinColumn(name = "contrato_id"), 
         inverseJoinColumns = @JoinColumn(name = "area_id")
-    ) private List<Area> areasOperadas;
+    ) @JsonIgnore private List<Area> areasOperadas;
 }

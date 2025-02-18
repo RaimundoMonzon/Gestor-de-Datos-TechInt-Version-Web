@@ -3,8 +3,10 @@ package Programacion2.HoldingEmpresas.services;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import Programacion2.HoldingEmpresas.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Rol;
@@ -12,6 +14,7 @@ import Programacion2.HoldingEmpresas.entities.UserEntity;
 import Programacion2.HoldingEmpresas.entities.Vendedor;
 import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.sql.Date;
@@ -149,33 +152,6 @@ public class UserService {
 
     public boolean isUsernameTaken(String username) {
         return getByName(username).isPresent();
-    }
-
-    public void deleteVendedor(Long oldManagerID, Long newManagerID) {
-        if (newManagerID != '0') {
-            reasignOrphanedSubcontratados(oldManagerID, newManagerID);
-        }
-        userRepository.deleteById(oldManagerID);
-    }
-
-    private void reasignOrphanedSubcontratados(Long oldManagerID, Long newManagerID) {
-        userRepository.findById(newManagerID).ifPresent(newManager -> {
-            userRepository.findById(oldManagerID).ifPresent(oldManager -> {
-                List<Vendedor> subContratadosOld = ((Vendedor) oldManager).getSubContratados();
-                subContratadosOld.remove(newManager);
-                List<Vendedor> subContratadosNew = ((Vendedor) newManager).getSubContratados();
-
-                subContratadosOld.forEach(sub -> {
-                    sub.setManagerID(newManagerID);
-                    subContratadosNew.add(sub);
-                    save(sub);
-                });
-
-                subContratadosOld.clear();
-                save(oldManager);
-                save(newManager);
-            });
-        });
     }
 
     public boolean isVendedor(Long id) {

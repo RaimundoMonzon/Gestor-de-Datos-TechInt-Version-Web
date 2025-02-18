@@ -25,8 +25,8 @@ public class ProfileController {
         if(user.getRol() == Rol.VENDEDOR) {
             Vendedor vendedor = (Vendedor) user;
             model.addAttribute("user", vendedor);
-            if(vendedor.getManagerID() != null) {
-                Vendedor manager = (Vendedor) userService.getById(vendedor.getManagerID());
+            if(vendedor.getManager() != null) {
+                Vendedor manager = (Vendedor) vendedor.getManager();
                 model.addAttribute("manager", manager);
             }
         }

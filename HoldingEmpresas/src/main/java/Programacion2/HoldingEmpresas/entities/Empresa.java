@@ -3,6 +3,8 @@ package Programacion2.HoldingEmpresas.entities;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,21 +47,23 @@ public class Empresa {
     @Column()
     private Double fta; // Facturacion Total Anual
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "empresa_pais", joinColumns = @JoinColumn(name = "empresa_id"), inverseJoinColumns = @JoinColumn(name = "pais_id"))
     @ToString.Exclude
     private List<Pais> paisesOperados;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "empresa_area", joinColumns = @JoinColumn(name = "empresa_id"), inverseJoinColumns = @JoinColumn(name = "area_id"))
     @ToString.Exclude
     private List<Area> areasOperadas;
 
-    @OneToMany(targetEntity = Vendedor.class, fetch = FetchType.LAZY, mappedBy = "empresa")
+    @OneToMany(targetEntity = Vendedor.class, fetch = FetchType.EAGER, mappedBy = "empresa")
     @ToString.Exclude
+    @JsonManagedReference("empresa-vendedores")
     private List<Vendedor> vendedoresContratados;
 
-    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonManagedReference("empresa-contratos")
     private List<Contrato> contratosAsesores;
 }

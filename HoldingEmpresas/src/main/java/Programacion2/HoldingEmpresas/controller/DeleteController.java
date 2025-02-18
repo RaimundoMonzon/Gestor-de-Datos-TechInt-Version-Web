@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import Programacion2.HoldingEmpresas.services.AreaService;
 import Programacion2.HoldingEmpresas.services.EmpresaService;
+import Programacion2.HoldingEmpresas.services.ManagerService;
 import Programacion2.HoldingEmpresas.services.PaisService;
 import Programacion2.HoldingEmpresas.services.UserService;
 import Programacion2.HoldingEmpresas.services.PopUpService;
@@ -22,6 +23,7 @@ public class DeleteController {
     private final AreaService areaService;
     private final UserService userService;
     private final PaisService paisService;
+    private final ManagerService managerService;
 
     @PostMapping("/user")
     public String editUser(@RequestParam Long id, @RequestParam(required = false) Long newManagerID, @RequestParam String password, Model model) {
@@ -33,7 +35,7 @@ public class DeleteController {
 
         if (userService.checkPassword(password)) {
             if(userService.isVendedor(id)) {
-                userService.deleteVendedor(id, newManagerID);
+                managerService.deleteManagerAndTransferSubordinates(id, newManagerID);
             }
             userService.delete(id);
             PopUpService.showSuccessPopUp(model);
