@@ -3,10 +3,8 @@ package Programacion2.HoldingEmpresas.services;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import Programacion2.HoldingEmpresas.repositories.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import Programacion2.HoldingEmpresas.entities.Administrador;
 import Programacion2.HoldingEmpresas.entities.Rol;
@@ -14,7 +12,6 @@ import Programacion2.HoldingEmpresas.entities.UserEntity;
 import Programacion2.HoldingEmpresas.entities.Vendedor;
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.sql.Date;

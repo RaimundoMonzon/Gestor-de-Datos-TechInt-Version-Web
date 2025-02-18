@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
@@ -27,12 +28,14 @@ public class Vendedor extends UserEntity {
         fetch = FetchType.EAGER, 
         cascade = { CascadeType.PERSIST, CascadeType.MERGE }, 
         orphanRemoval = false)
+    @ToString.Exclude
     @JsonManagedReference("vendedor-subcontratados")
     private List<Vendedor> subContratados;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "manager_id")
     @JsonBackReference("vendedor-subcontratados")
+    @ToString.Exclude
     private Vendedor manager; // Rename from managerID to manager
 
     public void addSubContratado(Vendedor sub) {
