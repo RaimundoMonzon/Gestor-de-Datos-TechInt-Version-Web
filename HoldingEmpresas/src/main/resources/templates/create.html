@@ -16,10 +16,10 @@
     <main class="page-container">
         <h1>Crear Entidades</h1>
         <div class="page-options">
-            <a th:href="@{/create/area}" class="page-card">Crear Área</a>
-            <a th:href="@{/create/empresa}" class="page-card">Crear Empresa</a>
-            <a th:href="@{/create/pais}" class="page-card">Crear País</a>
-            <a th:href="@{/create/user}" class="page-card">Crear Usuario</a>
+            <a th:href="@{/create/area}" class="page-card" th:classappend="area-bg">Área</a>
+            <a th:href="@{/create/empresa}" class="page-card" th:classappend="enterprise-bg">Empresa</a>
+            <a th:href="@{/create/pais}" class="page-card" th:classappend="country-bg">País</a>
+            <a th:href="@{/create/user}" class="page-card" th:classappend="user-bg">Usuario</a>
         </div>
     </main>
 

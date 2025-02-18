@@ -16,10 +16,10 @@
     <main class="page-container">
         <h1>Editar Entidades</h1>
         <div class="page-options">
-            <a th:href="@{/edit/area}" class="page-card">Editar Area</a>
-            <a th:href="@{/edit/empresa}" class="page-card">Editar Empresa</a>
-            <a th:href="@{/edit/pais}" class="page-card">Editar Pais</a>
-            <a th:href="@{/edit/user}" class="page-card">Editar Usuario</a>
+            <a th:href="@{/edit/area}" class="page-card" th:classappend="area-bg">Área</a>
+            <a th:href="@{/edit/empresa}" class="page-card" th:classappend="enterprise-bg">Empresa</a>
+            <a th:href="@{/edit/pais}" class="page-card" th:classappend="country-bg">País</a>
+            <a th:href="@{/edit/user}" class="page-card" th:classappend="user-bg">Usuario</a>
         </div>
     </main>
 
