@@ -6,7 +6,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)](https://www.mysql.com/)
 [![Apache](https://img.shields.io/badge/Apache-2.4-red)](https://httpd.apache.org/)
 
-A Spring Boot-based web application for managing company holdings, designed as part of **Programación 3** at INSPT-UTN. The system supports local and cloud deployment, with role-based access and secure API endpoints.
+A Spring Boot-based web application for managing company holdings, designed as part of **Programación 2** at INSPT-UTN. The system supports local and cloud deployment, with role-based access and secure API endpoints.
 
 ---
 
@@ -135,13 +135,11 @@ For full details, import the Postman collection from `docs/postman/`.
 
 ## 👥 Contributors
 - **Raimundo Monzón** ([GitHub](https://github.com/RaimundoMonzon))
-- **Guillermo Iribarne** ([GitHub](https://github.com/WillIribarne))
 
-Supervised by **Prof. Carlos E. Cimino** ([Website](https://charlycimino.com/)).
-
+Supervised by **Prof. Diego P. Corsi**.
 ---
 
 _📄 License: MIT_  
-_🔗 Live Demo: [http://your-render-url.onrender.com](http://your-render-url.onrender.com)_
+_🔗 Live Demo: ([Website](https://gestor-de-datos-techint-version-web.onrender.com/login))_
 
 ---
