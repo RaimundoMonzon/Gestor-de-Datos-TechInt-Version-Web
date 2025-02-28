@@ -232,7 +232,7 @@ Aplicación web basada en roles desarrollada con Spring Boot para gestionar empr
 ---
 
 ## 👤 Créditos  
-- **Desarrollador**: [Tu Nombre] ([GitHub](https://github.com/yourusername))  
+- **Desarrollador**: Raimundo Monzón ([GitHub](https://github.com/RaimundoMonzon))
 - **Supervisor**: Prof. Diego P. Corsi (Programación II, INSPT-UTN)  
 
 --- 
