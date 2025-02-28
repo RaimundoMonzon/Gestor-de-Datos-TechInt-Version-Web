@@ -115,7 +115,7 @@ A role-based web application developed with Spring Boot for managing companies, 
 ---
 
 ## 👤 Credits  
-- **Developer**: [Your Name] ([GitHub](https://github.com/yourusername))  
+- **Developer**: Raimundo Monzón ([GitHub](https://github.com/RaimundoMonzon))
 - **Supervisor**: Prof. Diego P. Corsi (Programación II, INSPT-UTN)  
 
 ---
