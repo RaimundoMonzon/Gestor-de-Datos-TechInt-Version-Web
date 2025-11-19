@@ -4,30 +4,21 @@ FROM eclipse-temurin:21-jdk
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven wrapper and the pom.xml file
+# Copy the Maven wrapper and pom.xml
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
-# Add executable permissions to mvnw
+# Give permission to mvnw
 RUN chmod +x ./mvnw
 
-# Copy the entire src directory
+# Copy the source code
 COPY src ./src
 
-# Run the Maven build to create the JAR file
+# Build the app
 RUN ./mvnw clean package -DskipTests
 
-# Expose port 8090 for the application
+# Expose the port your Spring Boot app actually uses
 EXPOSE 8090
 
-# Set environment variables for AWS MySQL connection
-ENV SPRING_DATASOURCE_URL="jdbc:mysql://holding-db.cb6egcecy5xf.us-east-2.rds.amazonaws.com:3306/holdingDataBase"
-ENV SPRING_DATASOURCE_USERNAME="rootRai"
-ENV SPRING_DATASOURCE_PASSWORD="~v#N]1&2&4N4WZrDagZ5Z9u,^it[V$"
-# Set enviroment variables for Local MySQL connection
-# ENV SPRING_DATASOURCE_URL="jdbc:mysql://localhost:3306/holdingDataBase"
-# ENV SPRING_DATASOURCE_USERNAME="rootRai"
-# ENV SPRING_DATASOURCE_PASSWORD="root"
-
-# Set the command to run the JAR file
+# Run the application
 ENTRYPOINT ["java", "-jar", "target/HoldingEmpresas-0.0.1-SNAPSHOT.jar"]
